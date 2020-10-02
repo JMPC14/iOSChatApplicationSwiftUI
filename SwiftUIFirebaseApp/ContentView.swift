@@ -23,14 +23,29 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 struct Home: View {
+    
+    @State private var show = false
+    
     var body: some View {
-        ZStack {
-            VStack {
-                Login()
+        NavigationView {
+            ZStack {
+                NavigationLink(
+                    destination: Register(show: self.$show)
+                        .background(Color("DefaultGreen").edgesIgnoringSafeArea(.all))
+                        .navigationBarTitle("")
+                        .navigationBarHidden(true),
+                    isActive: self.$show)
+                {
+                    Text("")
+                }
+                .hidden()
+                Login(show: self.$show)
             }
+            .navigationBarTitle("")
+            .navigationBarHidden(true)
+            .background(Color("DefaultGreen").edgesIgnoringSafeArea(.all))
         }
-        .frame(maxHeight: .infinity)
-        .background(Color("DefaultGreen").edgesIgnoringSafeArea(.all))
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
@@ -40,12 +55,15 @@ struct Login: View {
     @State private var email = ""
     @State private var password = ""
     @State private var visible = false
+    @Binding var show: Bool
     
     var body: some View {
         
         ZStack(alignment: .topTrailing) {
             
             Button(action: {
+                
+                self.show.toggle()
                 
             }) {
                 Text("Register")
@@ -127,18 +145,22 @@ struct Login: View {
 }
 
 struct Register: View {
+    
     @State private var color = Color.white.opacity(0.7)
     @State private var email = ""
     @State private var password = ""
     @State private var passwordConfirm = ""
     @State private var visible = false
     @State private var revisible = false
+    @Binding var show: Bool
     
     var body: some View {
         
         ZStack(alignment: .topLeading) {
             
             Button(action: {
+                
+                self.show.toggle()
                 
             }) {
                 Image(systemName: "chevron.left")
@@ -191,9 +213,9 @@ struct Register: View {
                 HStack(spacing: 15) {
                     VStack {
                         if self.revisible {
-                            TextField("Re-enter Password", text: self.$passwordConfirm)
+                            TextField("Confirm Password", text: self.$passwordConfirm)
                         } else {
-                            SecureField("Re-enter Password", text: self.$passwordConfirm)
+                            SecureField("Confirm Password", text: self.$passwordConfirm)
                         }
                     }
                     
