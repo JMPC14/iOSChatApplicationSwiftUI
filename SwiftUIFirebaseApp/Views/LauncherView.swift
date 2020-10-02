@@ -31,7 +31,7 @@ struct Home: View {
         NavigationView {
             VStack {
                 if self.status {
-                    Homescreen()
+                    LatestMessagesView()
                 } else {
                     ZStack {
                         NavigationLink(
@@ -46,9 +46,9 @@ struct Home: View {
                         }
                         .hidden()
                         Login(show: self.$show)
-                    }
+                    } // ZStack
                 }
-            }
+            } // VStack
             .navigationBarTitle("")
             .navigationBarHidden(true)
             .navigationBarBackButtonHidden(true)
@@ -59,7 +59,7 @@ struct Home: View {
                     self.status = UserDefaults.standard.value(forKey: "status") as? Bool ?? false
                 }
             }
-        }
+        } // Navigation View
         .navigationViewStyle(StackNavigationViewStyle())
     }
 }
@@ -89,7 +89,7 @@ struct Homescreen: View {
             .background(Color.white)
             .cornerRadius(10)
             .padding(.top, 25)
-        }
+        } // VStack
     }
 }
 
@@ -102,16 +102,14 @@ struct ErrorView: View {
     var body: some View {
         VStack {
             HStack {
-                Text("Error")
+                Text(self.error == "RESET" ? "Message" : "Error")
                     .font(.title)
                     .foregroundColor(self.colour)
                     .padding(.top, 15)
-                
-                Spacer()
-            }
+            } // HStack
             .padding(.horizontal, 25)
             
-            Text(self.error)
+            Text(self.error == "RESET" ? "Password reset email sent" : self.error)
                 .foregroundColor(self.colour)
                 .padding(.top)
             
@@ -120,7 +118,7 @@ struct ErrorView: View {
                 self.alert.toggle()
                 
             }) {
-                Text("Cancel")
+                Text("Ok")
                     .foregroundColor(Color.white)
                     .padding(.vertical)
                     .frame(maxWidth: 260)
@@ -128,7 +126,7 @@ struct ErrorView: View {
             .background(Color("DefaultGreen"))
             .cornerRadius(10)
             .padding([.bottom, .top], 25)
-        }
+        } // VStack
         .frame(maxWidth: 300)
         .background(Color.white)
         .cornerRadius(10)

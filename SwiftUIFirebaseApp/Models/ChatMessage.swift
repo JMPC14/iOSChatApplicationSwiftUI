@@ -8,45 +8,21 @@
 
 import Foundation
 import Firebase
-import FirebaseDatabase
 
-class ChatMessage: Decodable, Encodable {
-    var fromId: String = ""
-    var id: String = ""
-    var text: String = ""
-    var time: Int = 1
-    var timestamp: String = ""
-    var toId: String = ""
-    var imageUrl: String? = nil
-    var fileUrl: String? = nil
-    var fileType: String? = nil
+struct ChatMessage: Codable {
     
-    init(_ fromId: String, _ id: String, _ text: String, _ time: Int, _ timestamp: String, _ toId: String) {
-        self.fromId = fromId
-        self.id = id
-        self.text = text
-        self.time = time
-        self.timestamp = timestamp
-        self.toId = toId
+    let fromID, messageId, text: String
+    let time: Int
+    let timestamp, toID: String
+
+    enum CodingKeys: String, CodingKey {
+        case fromID = "fromId"
+        case text, time, timestamp
+        case toID = "toId"
+        case messageId = "id"
     }
-    
-    init(_ fromId: String, _ id: String, _ text: String, _ time: Int, _ timestamp: String, _ toId: String, _ imageUrl: String) {
-        self.fromId = fromId
-        self.id = id
-        self.text = text
-        self.time = time
-        self.timestamp = timestamp
-        self.toId = toId
-        self.imageUrl = imageUrl
-    }
-    
-    init(fromId: String, id: String, text: String, time: Int, timestamp: String, toId: String, fileUrl: String) {
-        self.fromId = fromId
-        self.id = id
-        self.text = text
-        self.time = time
-        self.timestamp = timestamp
-        self.toId = toId
-        self.fileUrl = fileUrl
-    }
+}
+
+extension ChatMessage: Identifiable {
+    var id: String { return messageId }
 }

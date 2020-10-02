@@ -22,6 +22,8 @@
 		C1247D31252720CA00250AF8 /* ChatMessageNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1247D2D252720C900250AF8 /* ChatMessageNew.swift */; };
 		C1247D3825272F6700250AF8 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1247D3725272F6700250AF8 /* SignInView.swift */; };
 		C1247D3B25272FB500250AF8 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1247D3A25272FB500250AF8 /* RegisterView.swift */; };
+		C1247D3E25275EC300250AF8 /* LatestMessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1247D3D25275EC300250AF8 /* LatestMessagesView.swift */; };
+		C1247D42252766E900250AF8 /* LatestMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1247D41252766E900250AF8 /* LatestMessageCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +46,8 @@
 		C1247D2D252720C900250AF8 /* ChatMessageNew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMessageNew.swift; sourceTree = "<group>"; };
 		C1247D3725272F6700250AF8 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		C1247D3A25272FB500250AF8 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		C1247D3D25275EC300250AF8 /* LatestMessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestMessagesView.swift; sourceTree = "<group>"; };
+		C1247D41252766E900250AF8 /* LatestMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestMessageCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +91,7 @@
 		C1247CC62525FCD600250AF8 /* SwiftUIFirebaseApp */ = {
 			isa = PBXGroup;
 			children = (
+				C1247D40252766D400250AF8 /* Cells */,
 				C1247D3525272F0300250AF8 /* Views */,
 				C1247D29252720AE00250AF8 /* Models */,
 				C1247CC72525FCD600250AF8 /* AppDelegate.swift */,
@@ -126,8 +131,17 @@
 				C1247CCB2525FCD600250AF8 /* LauncherView.swift */,
 				C1247D3725272F6700250AF8 /* SignInView.swift */,
 				C1247D3A25272FB500250AF8 /* RegisterView.swift */,
+				C1247D3D25275EC300250AF8 /* LatestMessagesView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		C1247D40252766D400250AF8 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				C1247D41252766E900250AF8 /* LatestMessageCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		EBE5309B9E55B28969B610FF /* Pods */ = {
@@ -260,7 +274,9 @@
 				C1247CEF252611DD00250AF8 /* FirebaseManager.swift in Sources */,
 				C1247CC82525FCD600250AF8 /* AppDelegate.swift in Sources */,
 				C1247CCA2525FCD600250AF8 /* SceneDelegate.swift in Sources */,
+				C1247D3E25275EC300250AF8 /* LatestMessagesView.swift in Sources */,
 				C1247CCC2525FCD600250AF8 /* LauncherView.swift in Sources */,
+				C1247D42252766E900250AF8 /* LatestMessageCell.swift in Sources */,
 				C1247D2E252720CA00250AF8 /* ChatUser.swift in Sources */,
 				C1247D31252720CA00250AF8 /* ChatMessageNew.swift in Sources */,
 				C1247D2F252720CA00250AF8 /* ChatUserNew.swift in Sources */,

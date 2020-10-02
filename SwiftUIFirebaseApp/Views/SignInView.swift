@@ -17,23 +17,34 @@ struct Login: View {
     @Binding var show: Bool
     @State var alert = false
     @State var error = ""
+    @State var resettingPassword = false
     
     var body: some View {
         
         ZStack {
             
-            ZStack(alignment: .topTrailing) {
+            VStack {
                 
-                Button(action: {
+                HStack {
                     
-                    self.show.toggle()
+                    Spacer()
                     
-                }) {
-                    Text("Register")
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                }
-                .padding()
+                    Button(action: {
+                        
+                        self.show.toggle()
+                        
+                    }) {
+                        Text("Register")
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                    }
+                    .padding()
+                } // HStack
+                
+                Spacer()
+            } // VStack
+            
+            ZStack {
                 
                 VStack {
                     
@@ -48,6 +59,7 @@ struct Login: View {
                         .foregroundColor(.white)
                     
                     TextField("Email", text: self.$email)
+                        .autocapitalization(.none)
                         .padding()
                         .background(RoundedRectangle(cornerRadius: 4).stroke(self.email != "" ? Color.white : self.color, lineWidth: 2))
                         .padding(.top, 25)
@@ -70,7 +82,7 @@ struct Login: View {
                             Image(systemName: self.visible ? "eye.slash.fill" : "eye.fill")
                                 .foregroundColor(self.color)
                         }
-                    }
+                    } // HStack
                     .padding()
                     .background(RoundedRectangle(cornerRadius: 4).stroke(self.password != "" ? Color.white : self.color, lineWidth: 2))
                     .padding(.top, 25)
@@ -81,12 +93,14 @@ struct Login: View {
                         
                         Button(action: {
                             
+                            self.resettingPassword = true
+                            
                         }) {
                             Text("Forgot Password?")
                                 .fontWeight(.bold)
                                 .foregroundColor(Color.white)
                         }
-                    }
+                    } // HStack
                     .padding(.top, 10)
                     
                     Button(action: {
@@ -99,18 +113,24 @@ struct Login: View {
                             .padding(.vertical)
                             .frame(width: UIScreen.main.bounds.width - 50)
                     }
+                    .frame(maxWidth: 400)
                     .background(Color.white)
                     .cornerRadius(10)
                     .padding(.top, 25)
-                }
+                } // VStack
+                .frame(maxWidth: 400, maxHeight: .infinity)
                 .padding(.horizontal, 25)
-                .frame(maxHeight: .infinity)
-            }
+            } // ZStack
+            .frame(width: UIScreen.main.bounds.width)
             
             if self.alert {
                 ErrorView(alert: self.$alert, error: self.$error)
             }
-        }
+            
+            if self.resettingPassword {
+                ResetPassword(resettingPassword: self.$resettingPassword)
+            }
+        } // ZStack
     }
     
     func verify() {
@@ -153,7 +173,81 @@ struct Login: View {
 
 struct SignInView_Previews: PreviewProvider {
     static var previews: some View {
-        Login(show: Binding.constant(false))
-            .background(Color("DefaultGreen").ignoresSafeArea(edges: .all))
+//        Login(show: Binding.constant(false))
+//            .background(Color("DefaultGreen").ignoresSafeArea(edges: .all))
+        
+        ResetPassword(resettingPassword: Binding.constant(true))
+    }
+}
+
+struct ResetPassword: View {
+    
+    @State private var email = ""
+    @Binding var resettingPassword: Bool
+    @State var alert = false
+    @State var error = ""
+    
+    var body: some View {
+        VStack {
+            TextField("Enter your email address", text: self.$email)
+                .autocapitalization(.none)
+                .padding()
+                .background(RoundedRectangle(cornerRadius: 4).stroke(self.email != "" ? Color.white : Color.white.opacity(0.7), lineWidth: 2))
+                .padding(.top, 25)
+                .foregroundColor(.black)
+            
+            Button(action: {
+                
+                if self.email != "" {
+                    Auth.auth().fetchSignInMethods(forEmail: self.email) { result, error in
+                        if result != nil {
+                            Auth.auth().sendPasswordReset(withEmail: self.email) { error in
+                                if error != nil {
+                                    self.alert = true
+                                    self.error = "Email address is invalid."
+                                } else {
+                                    self.resettingPassword.toggle()
+                                    self.alert = true
+                                    self.error = "RESET"
+                                }
+                            }
+                        } else {
+                            self.alert = true
+                            self.error = "Email address does not exist."
+                        }
+                    }
+                } else {
+                    self.alert.toggle()
+                    self.error = "Please enter an email address."
+                }
+                
+            }) {
+                Text("Reset Password")
+                    .foregroundColor(Color.white)
+                    .padding(.vertical)
+            }
+            .frame(maxWidth: 260)
+            .background(Color("DefaultGreen"))
+            .cornerRadius(10)
+            .padding(.top, 25)
+            
+            Button(action: {
+                
+                self.resettingPassword = false
+                
+            }) {
+                Text("Cancel")
+                    .foregroundColor(Color("DefaultGreen"))
+                    .padding(.vertical)
+            }
+        } // VStack
+        .frame(maxWidth: 300)
+        .background(Color.white)
+        .cornerRadius(10)
+        .padding(.horizontal, 25)
+        
+        if self.alert {
+            ErrorView(alert: self.$alert, error: self.$error)
+        }
     }
 }
