@@ -10,12 +10,18 @@
 		806E157B19F9B4C26B0DDC51 /* Pods_SwiftUIFirebaseApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B80B92F7310B7271A32D6E1 /* Pods_SwiftUIFirebaseApp.framework */; };
 		C1247CC82525FCD600250AF8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1247CC72525FCD600250AF8 /* AppDelegate.swift */; };
 		C1247CCA2525FCD600250AF8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1247CC92525FCD600250AF8 /* SceneDelegate.swift */; };
-		C1247CCC2525FCD600250AF8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1247CCB2525FCD600250AF8 /* ContentView.swift */; };
+		C1247CCC2525FCD600250AF8 /* LauncherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1247CCB2525FCD600250AF8 /* LauncherView.swift */; };
 		C1247CCE2525FCD700250AF8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C1247CCD2525FCD700250AF8 /* Assets.xcassets */; };
 		C1247CD12525FCD700250AF8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C1247CD02525FCD700250AF8 /* Preview Assets.xcassets */; };
 		C1247CD42525FCD700250AF8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1247CD22525FCD700250AF8 /* LaunchScreen.storyboard */; };
 		C1247CDD2525FD4A00250AF8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C1247CDC2525FD4A00250AF8 /* GoogleService-Info.plist */; };
 		C1247CEF252611DD00250AF8 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1247CEE252611DD00250AF8 /* FirebaseManager.swift */; };
+		C1247D2E252720CA00250AF8 /* ChatUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1247D2A252720C600250AF8 /* ChatUser.swift */; };
+		C1247D2F252720CA00250AF8 /* ChatUserNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1247D2B252720C700250AF8 /* ChatUserNew.swift */; };
+		C1247D30252720CA00250AF8 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1247D2C252720C800250AF8 /* ChatMessage.swift */; };
+		C1247D31252720CA00250AF8 /* ChatMessageNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1247D2D252720C900250AF8 /* ChatMessageNew.swift */; };
+		C1247D3825272F6700250AF8 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1247D3725272F6700250AF8 /* SignInView.swift */; };
+		C1247D3B25272FB500250AF8 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1247D3A25272FB500250AF8 /* RegisterView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,13 +31,19 @@
 		C1247CC42525FCD600250AF8 /* SwiftUIFirebaseApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUIFirebaseApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1247CC72525FCD600250AF8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C1247CC92525FCD600250AF8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C1247CCB2525FCD600250AF8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C1247CCB2525FCD600250AF8 /* LauncherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LauncherView.swift; sourceTree = "<group>"; };
 		C1247CCD2525FCD700250AF8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C1247CD02525FCD700250AF8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C1247CD32525FCD700250AF8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C1247CD52525FCD700250AF8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C1247CDC2525FD4A00250AF8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C1247CEE252611DD00250AF8 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
+		C1247D2A252720C600250AF8 /* ChatUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatUser.swift; sourceTree = "<group>"; };
+		C1247D2B252720C700250AF8 /* ChatUserNew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatUserNew.swift; sourceTree = "<group>"; };
+		C1247D2C252720C800250AF8 /* ChatMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
+		C1247D2D252720C900250AF8 /* ChatMessageNew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMessageNew.swift; sourceTree = "<group>"; };
+		C1247D3725272F6700250AF8 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		C1247D3A25272FB500250AF8 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,11 +87,12 @@
 		C1247CC62525FCD600250AF8 /* SwiftUIFirebaseApp */ = {
 			isa = PBXGroup;
 			children = (
-				C1247CDC2525FD4A00250AF8 /* GoogleService-Info.plist */,
+				C1247D3525272F0300250AF8 /* Views */,
+				C1247D29252720AE00250AF8 /* Models */,
 				C1247CC72525FCD600250AF8 /* AppDelegate.swift */,
 				C1247CC92525FCD600250AF8 /* SceneDelegate.swift */,
-				C1247CCB2525FCD600250AF8 /* ContentView.swift */,
 				C1247CEE252611DD00250AF8 /* FirebaseManager.swift */,
+				C1247CDC2525FD4A00250AF8 /* GoogleService-Info.plist */,
 				C1247CCD2525FCD700250AF8 /* Assets.xcassets */,
 				C1247CD22525FCD700250AF8 /* LaunchScreen.storyboard */,
 				C1247CD52525FCD700250AF8 /* Info.plist */,
@@ -94,6 +107,27 @@
 				C1247CD02525FCD700250AF8 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		C1247D29252720AE00250AF8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C1247D2C252720C800250AF8 /* ChatMessage.swift */,
+				C1247D2D252720C900250AF8 /* ChatMessageNew.swift */,
+				C1247D2A252720C600250AF8 /* ChatUser.swift */,
+				C1247D2B252720C700250AF8 /* ChatUserNew.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C1247D3525272F0300250AF8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C1247CCB2525FCD600250AF8 /* LauncherView.swift */,
+				C1247D3725272F6700250AF8 /* SignInView.swift */,
+				C1247D3A25272FB500250AF8 /* RegisterView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		EBE5309B9E55B28969B610FF /* Pods */ = {
@@ -220,10 +254,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C1247D3825272F6700250AF8 /* SignInView.swift in Sources */,
+				C1247D3B25272FB500250AF8 /* RegisterView.swift in Sources */,
+				C1247D30252720CA00250AF8 /* ChatMessage.swift in Sources */,
 				C1247CEF252611DD00250AF8 /* FirebaseManager.swift in Sources */,
 				C1247CC82525FCD600250AF8 /* AppDelegate.swift in Sources */,
 				C1247CCA2525FCD600250AF8 /* SceneDelegate.swift in Sources */,
-				C1247CCC2525FCD600250AF8 /* ContentView.swift in Sources */,
+				C1247CCC2525FCD600250AF8 /* LauncherView.swift in Sources */,
+				C1247D2E252720CA00250AF8 /* ChatUser.swift in Sources */,
+				C1247D31252720CA00250AF8 /* ChatMessageNew.swift in Sources */,
+				C1247D2F252720CA00250AF8 /* ChatUserNew.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

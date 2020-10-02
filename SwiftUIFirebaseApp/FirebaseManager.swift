@@ -10,18 +10,18 @@ import Foundation
 class FirebaseManager {
     static var manager = FirebaseManager()
     
-//    var currentUser: ChatUser
-//    var otherUser: ChatUser
-//    var onlineUsers: [String]
-//    var cid: String
-//    var latestMessageSeen: String
-//
-//    init() {
-//        self.currentUser = ChatUser()
-//        self.otherUser = ChatUser()
-//        self.onlineUsers = [String]()
-//        self.cid = String()
-//        self.latestMessageSeen = String()
-//    }
+    var currentUser: ChatUser
+    var otherUser: ChatUser
+    var onlineUsers: [String]
+    var cid: String
+    var latestMessageSeen: String
+
+    init() {
+        self.currentUser = ChatUser()
+        self.otherUser = ChatUser()
+        self.onlineUsers = [String]()
+        self.cid = String()
+        self.latestMessageSeen = String()
+    }
 }
 
