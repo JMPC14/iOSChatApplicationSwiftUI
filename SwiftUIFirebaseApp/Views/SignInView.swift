@@ -145,7 +145,6 @@ struct Login: View {
                     self.login()
                     print("login success")
                     UserDefaults.standard.set(true, forKey: "status")
-                    NotificationCenter.default.post(name: NSNotification.Name("status"), object: nil)
                 }
             }
         } else {
@@ -163,9 +162,10 @@ struct Login: View {
             if user != nil {
                 FirebaseManager.manager.currentUser = user!
                 
-//                Database.database().reference(withPath: "online-users/\(user!.uid)").setValue(true)
+                Database.database().reference(withPath: "online-users/\(user!.uid)").setValue(true)
                 
                 print("user retrieval success")
+                NotificationCenter.default.post(name: NSNotification.Name("status"), object: nil)
             }
         })
     }

@@ -9,16 +9,13 @@
 import Foundation
 import Firebase
 
-struct ChatMessage: Codable {
+struct ChatMessage: Codable, Equatable {
     
-    let fromID, messageId, text: String
+    let fromId, messageId, timestamp, toId, text: String
     let time: Int
-    let timestamp, toID: String
 
     enum CodingKeys: String, CodingKey {
-        case fromID = "fromId"
-        case text, time, timestamp
-        case toID = "toId"
+        case fromId, text, time, timestamp, toId
         case messageId = "id"
     }
 }

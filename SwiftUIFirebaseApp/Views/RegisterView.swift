@@ -169,7 +169,7 @@ struct Register: View {
                 let user = ChatUserNew(
                     Auth.auth().currentUser!.uid,
                     self.username,
-                    "https://i.imgur.com/W995ZQc.jpg",
+                    "https://firebasestorage.googleapis.com/v0/b/chatapplication-524a9.appspot.com/o/images%2FDog%20Placeholder.jpg?alt=media&token=6f70d796-7da0-4d5f-965e-e5cc2c161106",
                     self.email
                 )
                 Database.database().reference().child("users").child(user.uid).setValue(user.toAnyObject())
