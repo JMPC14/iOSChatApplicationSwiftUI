@@ -20,10 +20,10 @@ struct LatestMessagesView: View {
         
         NavigationView {
             List(latestMessageArray) { message in
-                NavigationLink(destination: ChatView()) {
+                let chatUser = self.dictionary[message.messageId]!
+                NavigationLink(destination: ChatView(otherUser: chatUser)) {
                     HStack {
                         // Profile picture
-                        let chatUser = self.dictionary[message.messageId]!
                         WebImage(url: URL(string: chatUser.profileImageUrl))
                             .resizable()
                             .scaledToFill()

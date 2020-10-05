@@ -91,11 +91,11 @@
 		C1247CC62525FCD600250AF8 /* SwiftUIFirebaseApp */ = {
 			isa = PBXGroup;
 			children = (
+				C148E8F2252B4108000A8131 /* Objects */,
 				C1247D3525272F0300250AF8 /* Views */,
 				C1247D29252720AE00250AF8 /* Models */,
 				C1247CC72525FCD600250AF8 /* AppDelegate.swift */,
 				C1247CC92525FCD600250AF8 /* SceneDelegate.swift */,
-				C1247CEE252611DD00250AF8 /* FirebaseManager.swift */,
 				C1247CDC2525FD4A00250AF8 /* GoogleService-Info.plist */,
 				C1247CCD2525FCD700250AF8 /* Assets.xcassets */,
 				C1247CD22525FCD700250AF8 /* LaunchScreen.storyboard */,
@@ -127,13 +127,21 @@
 		C1247D3525272F0300250AF8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C1247D63252B1C5E00250AF8 /* ChatView.swift */,
 				C1247CCB2525FCD600250AF8 /* LauncherView.swift */,
 				C1247D3725272F6700250AF8 /* SignInView.swift */,
 				C1247D3A25272FB500250AF8 /* RegisterView.swift */,
 				C1247D3D25275EC300250AF8 /* LatestMessagesView.swift */,
-				C1247D63252B1C5E00250AF8 /* ChatView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		C148E8F2252B4108000A8131 /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				C1247CEE252611DD00250AF8 /* FirebaseManager.swift */,
+			);
+			path = Objects;
 			sourceTree = "<group>";
 		};
 		EBE5309B9E55B28969B610FF /* Pods */ = {
