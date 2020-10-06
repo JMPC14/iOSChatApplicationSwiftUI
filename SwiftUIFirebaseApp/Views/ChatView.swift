@@ -28,22 +28,26 @@ struct ChatView: View {
                     ScrollViewReader { scroll in
                         ForEach(messagesArray) { message in
                             let index = messagesArray.firstIndex(where: { $0 == message })
+                            let previousMessage = messagesArray[index! - 1 == -1 ? 0 : index! - 1]
                             let previousAuthorIsIdentical = messagesArray[index! - 1 == -1 ? 0 : index! - 1].fromId == message.fromId
                             let firstMessage = index == 0 ? true : false
+                            let displayTime = (message.time - previousMessage.time) >= 60 && !firstMessage
                             if message.fromId == FirebaseManager.manager.currentUser.uid {
                                 HStack {
                                     Spacer()
                                     VStack {
-                                        HStack {
-                                            Spacer()
-                                            Text(message.timestamp)
-                                                .font(.system(size: 10))
+                                        if displayTime {
+                                            HStack {
+                                                Spacer()
+                                                Text(message.timestamp)
+                                                    .font(.system(size: 10))
+                                            }
                                         }
                                         HStack {
                                             Spacer()
                                             Text(message.text)
                                                 .padding(5)
-                                                .background(Color.green)
+                                                .background(Color("LightGreen"))
                                                 .cornerRadius(10)
                                         }
                                     } // VStack
@@ -77,10 +81,12 @@ struct ChatView: View {
                                             .shadow(radius: 1)
                                     }
                                     VStack {
-                                        HStack {
-                                            Text(message.timestamp)
-                                                .font(.system(size: 10))
-                                            Spacer()
+                                        if displayTime {
+                                            HStack {
+                                                Text(message.timestamp)
+                                                    .font(.system(size: 10))
+                                                Spacer()
+                                            }
                                         }
                                         HStack {
                                             Text(message.text)
@@ -107,6 +113,7 @@ struct ChatView: View {
                     } // ScrollViewReader
                     
                     Color.clear
+                        .frame(height: 60)
                 } // ScrollView
                 
                 VStack {
