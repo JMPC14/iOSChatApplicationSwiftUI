@@ -16,12 +16,14 @@ struct LatestMessagesView: View {
     
     @State var dictionary = [String : ChatUser]()
     
+    @State var onlineUsers = [String]()
+    
     var body: some View {
         
         NavigationView {
             List(latestMessageArray) { message in
                 let chatUser = self.dictionary[message.messageId]!
-                NavigationLink(destination: ChatView(otherUser: chatUser)) {
+                NavigationLink(destination: ChatView(otherUser: chatUser, onlineUsers: self.$onlineUsers)) {
                     HStack {
                         // Profile picture
                         WebImage(url: URL(string: chatUser.profileImageUrl))
@@ -31,12 +33,20 @@ struct LatestMessagesView: View {
                             .frame(width: 55, height: 55)
                             .overlay(Circle().stroke(Color.black, lineWidth: 2))
                             .shadow(radius: 2)
-                            
+                        
                         VStack(alignment: .leading) {
                             // Top text
-                            Text(chatUser.username)
-                                .fontWeight(.semibold)
-                                .padding(.bottom, 1)
+                            HStack {
+                                Text(chatUser.username)
+                                    .fontWeight(.semibold)
+                                    .padding(.bottom, 1)
+                                if onlineUsers.contains(chatUser.uid) {
+                                    Image(systemName: "circle.fill")
+                                        .font(.system(size: 10, weight: .ultraLight))
+                                        .foregroundColor(Color.green)
+                                }
+                                Spacer()
+                            }
                             
                             // Bottom text
                             Text(message.text)
@@ -50,8 +60,28 @@ struct LatestMessagesView: View {
         } // NavigationView
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
+            listenForOnlineUsers()
             listenForLatestMessages()
         }
+    }
+    
+    func listenForOnlineUsers() {
+        let ref = Database.database().reference()
+        ref.child("online-users").observe(.childAdded, with: { snapshot in
+            if snapshot.value as! Bool == true {
+                onlineUsers.append(snapshot.key)
+                
+            }
+        })
+        ref.child("online-users").observe(.childChanged, with: { snapshot in
+            if onlineUsers.contains(snapshot.key) && snapshot.value as! Bool == false {
+                onlineUsers.removeAll(where: { $0 == snapshot.key })
+                
+            } else {
+                onlineUsers.append(snapshot.key)
+                
+            }
+        })
     }
     
     func listenForLatestMessages() {
@@ -127,12 +157,5 @@ struct LatestMessagesView: View {
                 }
             }
         }
-    }
-}
-
-struct LatestMessagesView_Previews: PreviewProvider {
-    static var previews: some View {
-        LatestMessagesView()
-            .previewDevice("iPhone 11 Pro Max")
     }
 }

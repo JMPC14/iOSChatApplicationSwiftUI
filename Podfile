@@ -7,14 +7,14 @@ target 'SwiftUIFirebaseApp' do
 
   # Pods for SwiftUIFirebaseApp
 
-  pod 'Firebase/Analytics'
+#  pod 'Firebase/Analytics'
   pod 'Firebase/Core'
   pod 'Firebase/Database'
   pod 'Firebase/Auth'
-  pod 'Firebase/Firestore'
-  pod 'Firebase/Storage'
-  pod 'Firebase/Messaging'
-  pod 'FirebaseUI/Storage'
+#  pod 'Firebase/Firestore'
+#  pod 'Firebase/Storage'
+#  pod 'Firebase/Messaging'
+#  pod 'FirebaseUI/Storage'
   pod 'SDWebImageSwiftUI'
 
 end

@@ -9,7 +9,7 @@
 import Foundation
 import Firebase
 
-struct ChatMessage: Codable, Equatable {
+struct ChatMessage: Codable, Equatable, Hashable {
     
     let fromId, messageId, timestamp, toId, text: String
     let time: Int

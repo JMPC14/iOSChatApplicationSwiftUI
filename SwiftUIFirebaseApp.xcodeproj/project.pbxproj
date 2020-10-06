@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		806E157B19F9B4C26B0DDC51 /* Pods_SwiftUIFirebaseApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B80B92F7310B7271A32D6E1 /* Pods_SwiftUIFirebaseApp.framework */; };
 		C1247CC82525FCD600250AF8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1247CC72525FCD600250AF8 /* AppDelegate.swift */; };
 		C1247CCA2525FCD600250AF8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1247CC92525FCD600250AF8 /* SceneDelegate.swift */; };
 		C1247CCC2525FCD600250AF8 /* LauncherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1247CCB2525FCD600250AF8 /* LauncherView.swift */; };
@@ -24,12 +23,12 @@
 		C1247D3B25272FB500250AF8 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1247D3A25272FB500250AF8 /* RegisterView.swift */; };
 		C1247D3E25275EC300250AF8 /* LatestMessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1247D3D25275EC300250AF8 /* LatestMessagesView.swift */; };
 		C1247D64252B1C5E00250AF8 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1247D63252B1C5E00250AF8 /* ChatView.swift */; };
+		C3147CC0A4284D3876AB6ACE /* Pods_SwiftUIFirebaseApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8065960459FFB9661953DCA /* Pods_SwiftUIFirebaseApp.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2B80B92F7310B7271A32D6E1 /* Pods_SwiftUIFirebaseApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftUIFirebaseApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		372BC0644C8C04ABAC367846 /* Pods-SwiftUIFirebaseApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftUIFirebaseApp.debug.xcconfig"; path = "Target Support Files/Pods-SwiftUIFirebaseApp/Pods-SwiftUIFirebaseApp.debug.xcconfig"; sourceTree = "<group>"; };
-		3A37615345D2FE8B0691EA7F /* Pods-SwiftUIFirebaseApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftUIFirebaseApp.release.xcconfig"; path = "Target Support Files/Pods-SwiftUIFirebaseApp/Pods-SwiftUIFirebaseApp.release.xcconfig"; sourceTree = "<group>"; };
+		1175EAC04DCC5DB470EBE65C /* Pods-SwiftUIFirebaseApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftUIFirebaseApp.release.xcconfig"; path = "Target Support Files/Pods-SwiftUIFirebaseApp/Pods-SwiftUIFirebaseApp.release.xcconfig"; sourceTree = "<group>"; };
+		15D3D8A0893205BAA27775F3 /* Pods-SwiftUIFirebaseApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftUIFirebaseApp.debug.xcconfig"; path = "Target Support Files/Pods-SwiftUIFirebaseApp/Pods-SwiftUIFirebaseApp.debug.xcconfig"; sourceTree = "<group>"; };
 		C1247CC42525FCD600250AF8 /* SwiftUIFirebaseApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUIFirebaseApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1247CC72525FCD600250AF8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C1247CC92525FCD600250AF8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -48,6 +47,7 @@
 		C1247D3A25272FB500250AF8 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		C1247D3D25275EC300250AF8 /* LatestMessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestMessagesView.swift; sourceTree = "<group>"; };
 		C1247D63252B1C5E00250AF8 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		D8065960459FFB9661953DCA /* Pods_SwiftUIFirebaseApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftUIFirebaseApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,17 +55,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				806E157B19F9B4C26B0DDC51 /* Pods_SwiftUIFirebaseApp.framework in Frameworks */,
+				C3147CC0A4284D3876AB6ACE /* Pods_SwiftUIFirebaseApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		60B3D4ABD9ED67BFB33DAE27 /* Frameworks */ = {
+		75857FA222ABB6485A3A4A10 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2B80B92F7310B7271A32D6E1 /* Pods_SwiftUIFirebaseApp.framework */,
+				D8065960459FFB9661953DCA /* Pods_SwiftUIFirebaseApp.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -76,7 +76,7 @@
 				C1247CC62525FCD600250AF8 /* SwiftUIFirebaseApp */,
 				C1247CC52525FCD600250AF8 /* Products */,
 				EBE5309B9E55B28969B610FF /* Pods */,
-				60B3D4ABD9ED67BFB33DAE27 /* Frameworks */,
+				75857FA222ABB6485A3A4A10 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -147,8 +147,8 @@
 		EBE5309B9E55B28969B610FF /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				372BC0644C8C04ABAC367846 /* Pods-SwiftUIFirebaseApp.debug.xcconfig */,
-				3A37615345D2FE8B0691EA7F /* Pods-SwiftUIFirebaseApp.release.xcconfig */,
+				15D3D8A0893205BAA27775F3 /* Pods-SwiftUIFirebaseApp.debug.xcconfig */,
+				1175EAC04DCC5DB470EBE65C /* Pods-SwiftUIFirebaseApp.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -160,11 +160,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C1247CD82525FCD700250AF8 /* Build configuration list for PBXNativeTarget "SwiftUIFirebaseApp" */;
 			buildPhases = (
-				6061A66339F066441847C30B /* [CP] Check Pods Manifest.lock */,
+				5ADD16B0693056BA1502BA95 /* [CP] Check Pods Manifest.lock */,
 				C1247CC02525FCD600250AF8 /* Sources */,
 				C1247CC12525FCD600250AF8 /* Frameworks */,
 				C1247CC22525FCD600250AF8 /* Resources */,
-				E7DEE488AFA2F9210E11650B /* [CP] Embed Pods Frameworks */,
+				2C717F59D0218879D9FE255E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -222,7 +222,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		6061A66339F066441847C30B /* [CP] Check Pods Manifest.lock */ = {
+		2C717F59D0218879D9FE255E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SwiftUIFirebaseApp/Pods-SwiftUIFirebaseApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SwiftUIFirebaseApp/Pods-SwiftUIFirebaseApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SwiftUIFirebaseApp/Pods-SwiftUIFirebaseApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5ADD16B0693056BA1502BA95 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -242,23 +259,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E7DEE488AFA2F9210E11650B /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SwiftUIFirebaseApp/Pods-SwiftUIFirebaseApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SwiftUIFirebaseApp/Pods-SwiftUIFirebaseApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SwiftUIFirebaseApp/Pods-SwiftUIFirebaseApp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -415,7 +415,7 @@
 		};
 		C1247CD92525FCD700250AF8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 372BC0644C8C04ABAC367846 /* Pods-SwiftUIFirebaseApp.debug.xcconfig */;
+			baseConfigurationReference = 15D3D8A0893205BAA27775F3 /* Pods-SwiftUIFirebaseApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -427,6 +427,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -Xfrontend -warn-long-function-bodies=100";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Jack.SwiftUIFirebaseApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -436,7 +437,7 @@
 		};
 		C1247CDA2525FCD700250AF8 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3A37615345D2FE8B0691EA7F /* Pods-SwiftUIFirebaseApp.release.xcconfig */;
+			baseConfigurationReference = 1175EAC04DCC5DB470EBE65C /* Pods-SwiftUIFirebaseApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -448,6 +449,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -Xfrontend -warn-long-function-bodies=100";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Jack.SwiftUIFirebaseApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

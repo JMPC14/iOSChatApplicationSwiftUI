@@ -9,8 +9,33 @@ import SwiftUI
 import Firebase
 
 struct LauncherView: View {
+    
     var body: some View {
         Home()
+    }
+    
+    init() {
+        self.retrieveUser()
+    }
+    
+    func retrieveUser() {
+        if Auth.auth().currentUser != nil {
+            let uid: String! = Auth.auth().currentUser?.uid
+            let ref = Database.database().reference()
+            ref.child("users").child(uid).observeSingleEvent(of: .value, with: { (snapshot) in
+                guard let data = try? JSONSerialization.data(withJSONObject: snapshot.value as Any, options: []) else { return }
+                let user = try? JSONDecoder().decode(ChatUser.self, from: data)
+                if user != nil {
+                    FirebaseManager.manager.currentUser = user!
+                    
+                    Database.database().reference(withPath: "online-users/\(user!.uid)").setValue(true)
+                    
+                    print("user retrieval success")
+                    
+                    NotificationCenter.default.post(name: NSNotification.Name("status"), object: nil)
+                }
+            })
+        }
     }
 }
 
@@ -32,6 +57,7 @@ struct Home: View {
             VStack {
                 if self.status {
                     LatestMessagesView()
+                        .transition(AnyTransition.opacity.animation(.linear(duration: 0.3)))
                 } else {
                     ZStack {
                         NavigationLink(
