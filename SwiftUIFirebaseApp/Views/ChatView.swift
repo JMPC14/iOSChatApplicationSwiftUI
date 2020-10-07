@@ -110,12 +110,11 @@ struct ChatView: View {
                         
                         ForEach(dummyArray) { i in
                             Text("Test")
-                                .frame(height: 60)
+                                .frame(height: 20)
                                 .foregroundColor(Color.clear)
                                 .id(i)
                         }
                     } // ScrollViewReader
-                    
                 } // ScrollView
                 
                 VStack {
@@ -201,16 +200,29 @@ struct ChatView: View {
                     } // VStack
                     .padding(.top, 4)
                     .frame(height: 60)
-                    .background(LinearGradient(gradient: Gradient(colors: [Color.white.opacity(0.3), .white]), startPoint: .top, endPoint: .bottom)
+                    .background(LinearGradient(gradient: Gradient(colors: [Color.white.opacity(0.6), .white]), startPoint: .top, endPoint: .bottom)
                                     .edgesIgnoringSafeArea(.bottom))
+                    .offset(y: 60)
                 }
             } // ZStack
-            
-            
         } // VStack
         .onAppear {
+            hideTabbar()
+            disableTouchTabbar()
             listenForMessages()
             listenForTypingIndicators()
+        }
+    }
+    
+    public func hideTabbar() {
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: NSNotification.Name("hideBottomTabbar"), object: nil)
+        }
+    }
+    
+    public func disableTouchTabbar() {
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: NSNotification.Name("disableTouchTabbar"), object: nil)
         }
     }
     

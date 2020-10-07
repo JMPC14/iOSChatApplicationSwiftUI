@@ -23,6 +23,9 @@
 		C1247D3B25272FB500250AF8 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1247D3A25272FB500250AF8 /* RegisterView.swift */; };
 		C1247D3E25275EC300250AF8 /* LatestMessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1247D3D25275EC300250AF8 /* LatestMessagesView.swift */; };
 		C1247D64252B1C5E00250AF8 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1247D63252B1C5E00250AF8 /* ChatView.swift */; };
+		C12CA8F7252DEA1A00CC3065 /* MainTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12CA8F6252DEA1A00CC3065 /* MainTabViewModel.swift */; };
+		C12CA8FB252DF18700CC3065 /* ContactsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12CA8FA252DF18700CC3065 /* ContactsView.swift */; };
+		C14B891E252DBB1100B1749C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14B891D252DBB1100B1749C /* SettingsView.swift */; };
 		C3147CC0A4284D3876AB6ACE /* Pods_SwiftUIFirebaseApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8065960459FFB9661953DCA /* Pods_SwiftUIFirebaseApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +50,9 @@
 		C1247D3A25272FB500250AF8 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		C1247D3D25275EC300250AF8 /* LatestMessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestMessagesView.swift; sourceTree = "<group>"; };
 		C1247D63252B1C5E00250AF8 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		C12CA8F6252DEA1A00CC3065 /* MainTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabViewModel.swift; sourceTree = "<group>"; };
+		C12CA8FA252DF18700CC3065 /* ContactsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsView.swift; sourceTree = "<group>"; };
+		C14B891D252DBB1100B1749C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		D8065960459FFB9661953DCA /* Pods_SwiftUIFirebaseApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftUIFirebaseApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -91,7 +97,7 @@
 		C1247CC62525FCD600250AF8 /* SwiftUIFirebaseApp */ = {
 			isa = PBXGroup;
 			children = (
-				C148E8F2252B4108000A8131 /* Objects */,
+				C148E8F2252B4108000A8131 /* Misc */,
 				C1247D3525272F0300250AF8 /* Views */,
 				C1247D29252720AE00250AF8 /* Models */,
 				C1247CC72525FCD600250AF8 /* AppDelegate.swift */,
@@ -132,16 +138,19 @@
 				C1247D3725272F6700250AF8 /* SignInView.swift */,
 				C1247D3A25272FB500250AF8 /* RegisterView.swift */,
 				C1247D3D25275EC300250AF8 /* LatestMessagesView.swift */,
+				C14B891D252DBB1100B1749C /* SettingsView.swift */,
+				C12CA8FA252DF18700CC3065 /* ContactsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		C148E8F2252B4108000A8131 /* Objects */ = {
+		C148E8F2252B4108000A8131 /* Misc */ = {
 			isa = PBXGroup;
 			children = (
 				C1247CEE252611DD00250AF8 /* FirebaseManager.swift */,
+				C12CA8F6252DEA1A00CC3065 /* MainTabViewModel.swift */,
 			);
-			path = Objects;
+			path = Misc;
 			sourceTree = "<group>";
 		};
 		EBE5309B9E55B28969B610FF /* Pods */ = {
@@ -271,6 +280,7 @@
 				C1247D3825272F6700250AF8 /* SignInView.swift in Sources */,
 				C1247D3B25272FB500250AF8 /* RegisterView.swift in Sources */,
 				C1247D30252720CA00250AF8 /* ChatMessage.swift in Sources */,
+				C12CA8FB252DF18700CC3065 /* ContactsView.swift in Sources */,
 				C1247CEF252611DD00250AF8 /* FirebaseManager.swift in Sources */,
 				C1247D64252B1C5E00250AF8 /* ChatView.swift in Sources */,
 				C1247CC82525FCD600250AF8 /* AppDelegate.swift in Sources */,
@@ -280,6 +290,8 @@
 				C1247D2E252720CA00250AF8 /* ChatUser.swift in Sources */,
 				C1247D31252720CA00250AF8 /* ChatMessageNew.swift in Sources */,
 				C1247D2F252720CA00250AF8 /* ChatUserNew.swift in Sources */,
+				C14B891E252DBB1100B1749C /* SettingsView.swift in Sources */,
+				C12CA8F7252DEA1A00CC3065 /* MainTabViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

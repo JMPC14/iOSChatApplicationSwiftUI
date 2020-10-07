@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import Introspect
 
 struct LauncherView: View {
     
@@ -30,8 +31,6 @@ struct LauncherView: View {
                     
                     Database.database().reference(withPath: "online-users/\(user!.uid)").setValue(true)
                     
-                    print("user retrieval success")
-                    
                     NotificationCenter.default.post(name: NSNotification.Name("status"), object: nil)
                 }
             })
@@ -52,70 +51,54 @@ struct Home: View {
     @State private var show = false
     @State private var status = false
     
-    var body: some View {
-        NavigationView {
-            VStack {
-                if self.status {
-                    LatestMessagesView()
-                        .transition(AnyTransition.opacity.animation(.linear(duration: 0.3)))
-                } else {
-                    ZStack {
-                        NavigationLink(
-                            destination: Register(show: self.$show)
-                                .background(Color("DefaultGreen").edgesIgnoringSafeArea(.all))
-                                .navigationBarTitle("")
-                                .navigationBarHidden(true)
-                                .navigationBarBackButtonHidden(true),
-                            isActive: self.$show)
-                        {
-                            Text("")
-                        }
-                        .hidden()
-                        Login(show: self.$show)
-                    } // ZStack
-                }
-            } // VStack
-            .navigationBarTitle("")
-            .navigationBarHidden(true)
-            .navigationBarBackButtonHidden(true)
-            .background(Color("DefaultGreen").edgesIgnoringSafeArea(.all))
-            .onAppear {
-                NotificationCenter.default.addObserver(forName: NSNotification.Name("status"), object: nil, queue: .main) { _ in
-                    
-                    self.status = UserDefaults.standard.value(forKey: "status") as? Bool ?? false
-                }
-            }
-        } // Navigation View
-        .navigationViewStyle(StackNavigationViewStyle())
-    }
-}
-
-struct Homescreen: View {
+    @State var viewModel = MainTabViewModel()
     
     var body: some View {
-        
         VStack {
-            Text("Logged In")
-                .font(.title)
-                .fontWeight(.bold)
-                .foregroundColor(Color.black.opacity(0.7))
-            
-            Button(action: {
-                
-                try! Auth.auth().signOut()
-                UserDefaults.standard.set(false, forKey: "status")
-                NotificationCenter.default.post(name: NSNotification.Name("status"), object: nil)
-                
-            }) {
-                Text("Log Out")
-                    .foregroundColor(Color("DefaultGreen"))
-                    .padding(.vertical)
-                    .frame(width: UIScreen.main.bounds.width - 50)
+            if self.status {
+                TabView {
+                    LatestMessagesView()
+                        .tabItem {
+                            Image(systemName: "list.dash")
+                            Text("Latest Messages")
+                        }
+                    
+                    ContactsView()
+                        .tabItem {
+                            Image(systemName: "book")
+                            Text("Contacts")
+                        }
+                }
+                .introspectTabBarController { tabBarController in
+                    viewModel.tabBarController = tabBarController
+                }
+            } else {
+                ZStack {
+                    NavigationLink(
+                        destination: Register(show: self.$show)
+                            .background(Color("DefaultGreen").edgesIgnoringSafeArea(.all))
+                            .navigationBarTitle("")
+                            .navigationBarHidden(true)
+                            .navigationBarBackButtonHidden(true),
+                        isActive: self.$show)
+                    {
+                        Text("")
+                    }
+                    .hidden()
+                    Login(show: self.$show)
+                } // ZStack
             }
-            .background(Color.white)
-            .cornerRadius(10)
-            .padding(.top, 25)
         } // VStack
+        .navigationBarTitle("")
+        .navigationBarHidden(true)
+        .navigationBarBackButtonHidden(true)
+        .background(Color("DefaultGreen").edgesIgnoringSafeArea(.all))
+        .onAppear {
+            NotificationCenter.default.addObserver(forName: NSNotification.Name("status"), object: nil, queue: .main) { _ in
+                
+                self.status = UserDefaults.standard.value(forKey: "status") as? Bool ?? false
+            }
+        }
     }
 }
 

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct ChatUser: Codable {
+struct ChatUser: Codable, Equatable {
     let contacts: [String]?
     let blocklist: [String]?
     let token: String?
@@ -29,4 +29,8 @@ struct ChatUser: Codable {
         self.uid = ""
         self.username = ""
     }
+}
+
+extension ChatUser: Identifiable {
+    var id: String { return uid }
 }

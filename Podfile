@@ -16,5 +16,6 @@ target 'SwiftUIFirebaseApp' do
 #  pod 'Firebase/Messaging'
 #  pod 'FirebaseUI/Storage'
   pod 'SDWebImageSwiftUI'
+  pod 'Introspect'
 
 end

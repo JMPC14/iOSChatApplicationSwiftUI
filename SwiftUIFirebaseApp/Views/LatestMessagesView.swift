@@ -9,6 +9,7 @@ import SwiftUI
 import UIKit
 import Firebase
 import SDWebImageSwiftUI
+import Introspect
 
 struct LatestMessagesView: View {
     
@@ -17,6 +18,8 @@ struct LatestMessagesView: View {
     @State var dictionary = [String : ChatUser]()
     
     @State var onlineUsers = [String]()
+    
+    @State var showSettings = false
     
     var body: some View {
         
@@ -47,21 +50,53 @@ struct LatestMessagesView: View {
                                 }
                                 Spacer()
                             }
+                            .padding(.top, 5)
+                            
+                            Spacer()
                             
                             // Bottom text
-                            Text(message.text)
+                            Text(message.fromId == FirebaseManager.manager.currentUser.uid ? "You: \(message.text)" : "Them: \(message.text)")
+                                .padding(.bottom, 5)
+                                .lineLimit(1)
                         } // VStack
                         .padding(.leading, 5)
                     } // HStack
+                    .onAppear {
+                        showTabbar()
+                        enableTouchTabbar()
+                    }
                     .frame(maxHeight: 120)
                 } // NavigationLink
             } // List
             .navigationBarTitle("Latest Messages")
+            .navigationBarItems(leading: Button(action: {
+                
+            }) {
+                Text("Menu")
+            }, trailing: NavigationLink(destination: SettingsView(), isActive: self.$showSettings) {
+                Button(action: {
+                    self.showSettings = true
+                }) {
+                    Text("Settings")
+                }
+            })
         } // NavigationView
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
             listenForOnlineUsers()
             listenForLatestMessages()
+        }
+    }
+    
+    public func showTabbar() {
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: NSNotification.Name("showBottomTabbar"), object: nil)
+        }
+    }
+    
+    public func enableTouchTabbar() {
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: NSNotification.Name("enableTouchTabbar"), object: nil)
         }
     }
     
