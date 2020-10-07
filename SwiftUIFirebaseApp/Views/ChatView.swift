@@ -121,15 +121,6 @@ struct ChatView: View {
                 VStack {
                     Spacer()
                     VStack {
-                        if self.otherUserTyping {
-                            HStack {
-                                Text("\(otherUser.username) is typing...")
-                                    .padding(.bottom, 2)
-                                    .padding(.horizontal, 10)
-                                Spacer()
-                            }
-                            .transition(AnyTransition.opacity.animation(.linear(duration: 0.2)))
-                        }
                         HStack {
                             Button(action: {
                                 
@@ -198,10 +189,19 @@ struct ChatView: View {
                             
                         } // HStack
                         .padding(.horizontal, 10)
+                        
+                        HStack {
+                            Text("\(otherUser.username) is typing...")
+                                .padding(.bottom, 2)
+                                .padding(.horizontal, 40)
+                                .opacity(otherUserTyping == true ? 1.0 : 0.0)
+                            Spacer()
+                        }
+                        .frame(height: 25)
                     } // VStack
                     .padding(.top, 4)
                     .frame(height: 60)
-                    .background(Color.white.opacity(0.8)
+                    .background(LinearGradient(gradient: Gradient(colors: [Color.white.opacity(0.3), .white]), startPoint: .top, endPoint: .bottom)
                                     .edgesIgnoringSafeArea(.bottom))
                 }
             } // ZStack
