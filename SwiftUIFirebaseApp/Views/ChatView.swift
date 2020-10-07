@@ -18,6 +18,8 @@ struct ChatView: View {
     @State var otherUserTyping = false
     @State var scrollPosition = 0
     
+    @State var dummyArray = [ChatMessage(fromId: "TestFromId", messageId: "TestId", timestamp: "TestTimestamp", toId: "TestToId", text: "TestText", time: 0)]
+    
     @Binding var onlineUsers: [String]
     
     var body: some View {
@@ -29,20 +31,18 @@ struct ChatView: View {
                         ForEach(messagesArray) { message in
                             let index = messagesArray.firstIndex(where: { $0 == message })
                             let previousMessage = messagesArray[index! - 1 == -1 ? 0 : index! - 1]
-                            let previousAuthorIsIdentical = messagesArray[index! - 1 == -1 ? 0 : index! - 1].fromId == message.fromId
+                            let previousAuthorIsIdentical = previousMessage.fromId == message.fromId
                             let firstMessage = index == 0 ? true : false
-                            let displayTime = (message.time - previousMessage.time) >= 60 && !firstMessage
+                            let displayTime = (message.time - previousMessage.time) >= 60
                             if message.fromId == FirebaseManager.manager.currentUser.uid {
+                                if displayTime || firstMessage {
+                                    Text(message.timestamp)
+                                        .font(.system(size: 10))
+                                        .padding(.top, firstMessage == true ? 10 : 0)
+                                }
                                 HStack {
                                     Spacer()
                                     VStack {
-                                        if displayTime {
-                                            HStack {
-                                                Spacer()
-                                                Text(message.timestamp)
-                                                    .font(.system(size: 10))
-                                            }
-                                        }
                                         HStack {
                                             Spacer()
                                             Text(message.text)
@@ -65,10 +65,15 @@ struct ChatView: View {
                                 .padding(.trailing, previousAuthorIsIdentical == true && firstMessage == false ? 48 : 0)
                                 .onAppear {
                                     withAnimation {
-                                        scroll.scrollTo(messagesArray.last)
+                                        scroll.scrollTo(dummyArray.last)
                                     }
                                 }
                             } else {
+                                if displayTime || firstMessage {
+                                    Text(message.timestamp)
+                                        .font(.system(size: 10))
+                                        .padding(.top, firstMessage == true ? 10 : 0)
+                                }
                                 HStack {
                                     let colourChange = onlineUsers.contains(otherUser.uid)
                                     if !previousAuthorIsIdentical || firstMessage {
@@ -81,13 +86,6 @@ struct ChatView: View {
                                             .shadow(radius: 1)
                                     }
                                     VStack {
-                                        if displayTime {
-                                            HStack {
-                                                Text(message.timestamp)
-                                                    .font(.system(size: 10))
-                                                Spacer()
-                                            }
-                                        }
                                         HStack {
                                             Text(message.text)
                                                 .padding(5)
@@ -102,7 +100,7 @@ struct ChatView: View {
                                 .padding(.leading, previousAuthorIsIdentical == true && firstMessage == false ? 48 : 0)
                                 .onAppear {
                                     withAnimation {
-                                        scroll.scrollTo(messagesArray.last)
+                                        scroll.scrollTo(dummyArray.last)
                                     }
                                 }
                             }
@@ -110,10 +108,14 @@ struct ChatView: View {
                         .padding(.horizontal, 10)
                         .navigationBarTitle(self.otherUser.username, displayMode: .inline)
                         
+                        ForEach(dummyArray) { i in
+                            Text("Test")
+                                .frame(height: 60)
+                                .foregroundColor(Color.clear)
+                                .id(i)
+                        }
                     } // ScrollViewReader
                     
-                    Color.clear
-                        .frame(height: 60)
                 } // ScrollView
                 
                 VStack {
@@ -136,6 +138,7 @@ struct ChatView: View {
                                     .font(.system(size: 22, weight: .ultraLight))
                             }
                             TextField("Enter a message...", text: self.$writing)
+                                .frame(height: 15)
                                 .padding(10)
                                 .background(Color(red: 233.0/255, green: 234.0/255, blue: 243.0/255))
                                 .cornerRadius(10)
