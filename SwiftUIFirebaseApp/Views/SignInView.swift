@@ -164,7 +164,6 @@ struct Login: View {
                 
                 Database.database().reference(withPath: "online-users/\(user!.uid)").setValue(true)
                 
-                print("user retrieval success")
                 NotificationCenter.default.post(name: NSNotification.Name("status"), object: nil)
             }
         })

@@ -140,12 +140,11 @@ struct Register: View {
                 if error != nil {
                     // Error
                     self.error = error!.localizedDescription
+                    print(self.error)
                 } else {
                     // Register
                     self.register()
                     print("new user created")
-                    UserDefaults.standard.set(true, forKey: "status")
-                    NotificationCenter.default.post(name: NSNotification.Name("status"), object: nil)
                 }
             })
         } else {
@@ -159,29 +158,22 @@ struct Register: View {
     }
     
     func register() {
-//        let filename = UUID.init().uuidString
-//        let ref = Storage.storage().reference().child("images/\(filename)")
-//        let uploadData = self.imageViewNewUser.image!.pngData()
-//        let metadata = StorageMetadata()
-//        metadata.contentType = "image/png"
-//        ref.putData(uploadData!, metadata: metadata, completion: { metadata, error in
-//            ref.downloadURL(completion: { url, error in
-                let user = ChatUserNew(
-                    Auth.auth().currentUser!.uid,
-                    self.username,
-                    "https://firebasestorage.googleapis.com/v0/b/chatapplication-524a9.appspot.com/o/images%2FDog%20Placeholder.jpg?alt=media&token=6f70d796-7da0-4d5f-965e-e5cc2c161106",
-                    self.email
-                )
-                Database.database().reference().child("users").child(user.uid).setValue(user.toAnyObject())
-                let newRef = Database.database().reference()
-                newRef.child("users/\(user.uid)").observe(.value, with: { snapshot in
-                    guard let data = try? JSONSerialization.data(withJSONObject: snapshot.value as Any, options: []) else { return }
-                    let user = try? JSONDecoder().decode(ChatUser.self, from: data)
-                    FirebaseManager.manager.currentUser = user!
-                    print("new user retrieved")
-                })
-//            })
-//        })
+        let user = ChatUser(
+            Auth.auth().currentUser!.uid,
+            self.username,
+            "https://firebasestorage.googleapis.com/v0/b/chatapplication-524a9.appspot.com/o/images%2FDog%20Placeholder.jpg?alt=media&token=6f70d796-7da0-4d5f-965e-e5cc2c161106",
+            self.email
+        )
+        Database.database().reference().child("users").child(user.uid).setValue(user.toAnyObject())
+        let newRef = Database.database().reference()
+        newRef.child("users/\(user.uid)").observe(.value, with: { snapshot in
+            guard let data = try? JSONSerialization.data(withJSONObject: snapshot.value as Any, options: []) else { return }
+            let user = try? JSONDecoder().decode(ChatUser.self, from: data)
+            FirebaseManager.manager.currentUser = user!
+            print("new user retrieved")
+            UserDefaults.standard.set(true, forKey: "status")
+            NotificationCenter.default.post(name: NSNotification.Name("status"), object: nil)
+        })
     }
 }
 

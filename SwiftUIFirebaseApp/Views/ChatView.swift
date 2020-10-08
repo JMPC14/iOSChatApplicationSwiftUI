@@ -18,7 +18,7 @@ struct ChatView: View {
     @State var otherUserTyping = false
     @State var scrollPosition = 0
     
-    @State var dummyArray = [ChatMessage(fromId: "TestFromId", messageId: "TestId", timestamp: "TestTimestamp", toId: "TestToId", text: "TestText", time: 0)]
+    @State var dummyArray = [ChatMessage("testFromId", "testMessageId", "testText", 0, "testTimestamp", "testToId")]
     
     @Binding var onlineUsers: [String]
     
@@ -106,7 +106,7 @@ struct ChatView: View {
                             }
                         } // ForEach
                         .padding(.horizontal, 10)
-                        .navigationBarTitle(self.otherUser.username, displayMode: .inline)
+                        .navigationBarTitle(otherUser.username, displayMode: .inline)
                         
                         ForEach(dummyArray) { i in
                             Text("Test")
@@ -127,18 +127,18 @@ struct ChatView: View {
                                 Image(systemName: "camera")
                                     .font(.system(size: 22, weight: .ultraLight))
                             }
-                            TextField("Enter a message...", text: self.$writing)
+                            TextField("Enter a message...", text: $writing)
                                 .frame(height: 15)
                                 .padding(10)
                                 .background(Color(red: 233.0/255, green: 234.0/255, blue: 243.0/255))
                                 .cornerRadius(10)
-                                .onChange(of: self.writing, perform: { text in
+                                .onChange(of: writing, perform: { text in
                                     updateTypingIndicator()
                                 })
                             
                             Button(action: {
                                 if writing != "" {
-                                    let ref = Database.database().reference().child("conversations/\(self.cid)").childByAutoId()
+                                    let ref = Database.database().reference().child("conversations/\(cid)").childByAutoId()
                                     
                                     let date = Date()
                                     let calendar = Calendar.current
@@ -163,13 +163,13 @@ struct ChatView: View {
                                         newMinute = String(minute)
                                     }
                                     
-                                    let chatMessage = ChatMessageNew(
+                                    let chatMessage = ChatMessage(
                                         FirebaseManager.manager.currentUser.uid,
                                         ref.key!,
-                                        self.writing,
+                                        writing,
                                         Int(NSDate().timeIntervalSince1970),
                                         "\(dayOfMonth!) \(nameOfMonth), \(newHour):\(newMinute)",
-                                        self.otherUser.uid
+                                        otherUser.uid
                                     )
                                     
                                     ref.setValue(chatMessage.toAnyObject())
@@ -180,7 +180,7 @@ struct ChatView: View {
                                     let latestMessageToRef = Database.database().reference()
                                     latestMessageToRef.child("latest-messages/\(chatMessage.toId)/\(chatMessage.fromId)").setValue(chatMessage.toAnyObject())
                                 }
-                                self.writing = ""
+                                writing = ""
                             }) {
                                 Image(systemName: "paperplane.fill")
                                     .font(.system(size: 22, weight: .ultraLight))
@@ -214,13 +214,10 @@ struct ChatView: View {
                     .background(LinearGradient(gradient: Gradient(colors: [Color.white.opacity(0.8), .white]), startPoint: .top, endPoint: .bottom)
                                     .frame(height: 60)
                                     .edgesIgnoringSafeArea(.bottom))
-//                    .offset(y: 60)
                 }
             } // ZStack
         } // VStack
         .onAppear {
-//            hideTabbar()
-//            disableTouchTabbar()
             listenForMessages()
             listenForTypingIndicators()
         }
@@ -264,7 +261,7 @@ struct ChatView: View {
     
     func updateTypingIndicator() {
         let ref = Database.database().reference(withPath: "user-messages/\(otherUser.uid)/\(FirebaseManager.manager.currentUser.uid)")
-        if self.writing != "" {
+        if writing != "" {
             ref.child("typing").setValue(true)
         } else {
             ref.child("typing").setValue(false)
@@ -274,12 +271,12 @@ struct ChatView: View {
     func listenForMessages() {
         let ref = Database.database().reference().child("user-messages/\(FirebaseManager.manager.currentUser.uid)/\(otherUser.uid)/cid")
         ref.observe(.value) { snapshot in
-            self.cid = snapshot.value! as! String
+            cid = snapshot.value! as! String
             let newRef = Database.database().reference()
             newRef.child("conversations/\(self.cid)").observe(.childAdded, with: { snapshot in
                 guard let data = try? JSONSerialization.data(withJSONObject: snapshot.value as Any, options: []) else { return }
                 let a = try? JSONDecoder().decode(ChatMessage?.self, from: data)
-                self.messagesArray.append(a!)
+                messagesArray.append(a!)
             })
         }
     }

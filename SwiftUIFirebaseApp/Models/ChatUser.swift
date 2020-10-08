@@ -29,6 +29,25 @@ struct ChatUser: Codable, Equatable {
         self.uid = ""
         self.username = ""
     }
+    
+    init(_ uid: String, _ username: String, _ profileImageUrl: String, _ email: String) {
+        self.uid = uid
+        self.username = username
+        self.profileImageUrl = profileImageUrl
+        self.email = email
+        self.token = nil
+        self.contacts = nil
+        self.blocklist = nil
+    }
+    
+    func toAnyObject() -> Any {
+        return [
+            "uid" : uid,
+            "username" : username,
+            "email" : email,
+            "profileImageUrl" : profileImageUrl,
+        ]
+    }
 }
 
 extension ChatUser: Identifiable {

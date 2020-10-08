@@ -123,11 +123,11 @@ struct LatestMessagesView: View {
         self.latestMessageArray = [ChatMessage]()
         let ref = Database.database().reference().child("latest-messages")
         ref.child(FirebaseManager.manager.currentUser.uid).observe(.childAdded, with: { snapshot in
-            self.refreshLatestMessages(snapshot)
+            refreshLatestMessages(snapshot)
             })
         
         ref.child(FirebaseManager.manager.currentUser.uid).observe(.childChanged, with: { snapshot in
-            self.refreshLatestMessages(snapshot)
+            refreshLatestMessages(snapshot)
         })
     }
     

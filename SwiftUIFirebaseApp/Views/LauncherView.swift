@@ -16,6 +16,7 @@ struct LauncherView: View {
     }
     
     init() {
+//        try! Auth.auth().signOut()
         retrieveUser()
     }
     
@@ -85,20 +86,11 @@ struct Home: View {
                     viewModel.tabBarController = tabBarController
                 }
             } else {
-                ZStack {
-                    NavigationLink(
-                        destination: Register(show: $show)
-                            .background(Color("DefaultGreen").edgesIgnoringSafeArea(.all))
-                            .navigationBarTitle("")
-                            .navigationBarHidden(true)
-                            .navigationBarBackButtonHidden(true),
-                        isActive: $show)
-                    {
-                        Text("")
-                    }
-                    .hidden()
-                    Login(show: $show)
-                } // ZStack
+                if self.show {
+                    Register(show: self.$show)
+                } else {
+                    Login(show: self.$show)
+                }
             }
         } // VStack
         .navigationBarTitle("")

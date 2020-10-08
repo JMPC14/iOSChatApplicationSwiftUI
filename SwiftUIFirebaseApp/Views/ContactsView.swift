@@ -102,12 +102,11 @@ struct NewContactView: View {
                             }
                         }
                     }
-            }
+            } // HStack
             .padding(.horizontal, 15)
             
-            List(filteredUsers.isEmpty ? users : filteredUsers) { chatUser in
+            List(filter.isEmpty ? users : filteredUsers) { chatUser in
                 HStack {
-                    // Profile picture
                     WebImage(url: URL(string: chatUser.profileImageUrl))
                         .resizable()
                         .scaledToFill()
@@ -117,7 +116,6 @@ struct NewContactView: View {
                         .shadow(radius: 2)
                     
                     VStack(alignment: .leading) {
-                        // Top text
                         HStack {
                             Text(chatUser.username)
                                 .fontWeight(.semibold)
@@ -128,7 +126,6 @@ struct NewContactView: View {
                     .padding(.leading, 5)
                 } // HStack
                 .onTapGesture {
-                    // Add user
                     var contactsUidList = [String]()
                     contacts.forEach { contact in
                         contactsUidList.append(contact.uid)
@@ -146,7 +143,14 @@ struct NewContactView: View {
             .onAppear {
                 fetchUsers()
             }
-        }
+            
+            if filter != "" && filteredUsers.isEmpty {
+                VStack {
+                    Text("No users found!")
+                    Spacer()
+                }
+            }
+        } // VStack
     }
     
     func fetchUsers() {
