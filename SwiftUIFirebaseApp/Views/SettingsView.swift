@@ -20,17 +20,18 @@ struct SettingsView: View {
                  https://stackoverflow.com/questions/63934037/swiftui-navigationlink-cell-in-a-form-stays-highlighted-after-detail-pop */
             }
             
-            NavigationLink(destination: EmptyView()) {
+            HStack {
                 Text("Sign Out")
                     .foregroundColor(Color.red)
-                    .onTapGesture {
-                        do { try Auth.auth().signOut() }
-                        catch { print("sign out failed") }
-                        UserDefaults.standard.set(false, forKey: "status")
-                        NotificationCenter.default.post(name: NSNotification.Name("status"), object: nil)
-                    }
+                Spacer()
             }
-            .padding(.trailing, -32.0)
+            .onTapGesture {
+                do { try Auth.auth().signOut() }
+                catch { print("sign out failed") }
+                Database.database().reference(withPath: "online-users/\(FirebaseManager.manager.currentUser.uid)").setValue(false)
+                UserDefaults.standard.set(false, forKey: "status")
+                NotificationCenter.default.post(name: NSNotification.Name("status"), object: nil)
+            }
         }
         .navigationBarTitle("Settings")
     }

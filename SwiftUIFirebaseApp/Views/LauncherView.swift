@@ -16,7 +16,7 @@ struct LauncherView: View {
     }
     
     init() {
-        self.retrieveUser()
+        retrieveUser()
     }
     
     func retrieveUser() {
@@ -53,39 +53,51 @@ struct Home: View {
     
     @State var viewModel = MainTabViewModel()
     
+    @State var tabSelected = 0
+    
     var body: some View {
         VStack {
-            if self.status {
-                TabView {
+            if status {
+                TabView(selection: $tabSelected) {
                     LatestMessagesView()
                         .tabItem {
-                            Image(systemName: "list.dash")
+                            Image(systemName: tabSelected == 0 ? "message.fill" : "message")
                             Text("Latest Messages")
                         }
+                        .tag(0)
                     
                     ContactsView()
                         .tabItem {
-                            Image(systemName: "book")
+                            Image(systemName: tabSelected == 1 ? "book.fill" : "book")
                             Text("Contacts")
                         }
+                        .tag(1)
+                    
+                    ProfileView()
+                        .tabItem {
+                            Image(systemName: tabSelected == 2 ? "person.fill" : "person")
+                            Text("Profile")
+                        }
+                        .tag(2)
                 }
+                .transition(AnyTransition.opacity.animation(.linear(duration: 0.3)))
                 .introspectTabBarController { tabBarController in
                     viewModel.tabBarController = tabBarController
                 }
             } else {
                 ZStack {
                     NavigationLink(
-                        destination: Register(show: self.$show)
+                        destination: Register(show: $show)
                             .background(Color("DefaultGreen").edgesIgnoringSafeArea(.all))
                             .navigationBarTitle("")
                             .navigationBarHidden(true)
                             .navigationBarBackButtonHidden(true),
-                        isActive: self.$show)
+                        isActive: $show)
                     {
                         Text("")
                     }
                     .hidden()
-                    Login(show: self.$show)
+                    Login(show: $show)
                 } // ZStack
             }
         } // VStack
@@ -96,7 +108,7 @@ struct Home: View {
         .onAppear {
             NotificationCenter.default.addObserver(forName: NSNotification.Name("status"), object: nil, queue: .main) { _ in
                 
-                self.status = UserDefaults.standard.value(forKey: "status") as? Bool ?? false
+                status = UserDefaults.standard.value(forKey: "status") as? Bool ?? false
             }
         }
     }

@@ -75,6 +75,8 @@ struct NewContactView: View {
     
     @State var users = [ChatUser]()
     
+    @State var filteredUsers = [ChatUser]()
+    
     @Binding var contacts: [ChatUser]
     
     @State var filter = ""
@@ -91,10 +93,19 @@ struct NewContactView: View {
                     .padding(10)
                     .background(Color(red: 233.0/255, green: 234.0/255, blue: 243.0/255))
                     .cornerRadius(10)
+                    .autocapitalization(.none)
+                    .onChange(of: filter) { value in
+                        filteredUsers = [ChatUser]()
+                        users.forEach { user in
+                            if user.username.lowercased().contains(filter) {
+                                filteredUsers.append(user)
+                            }
+                        }
+                    }
             }
             .padding(.horizontal, 15)
             
-            List(users) { chatUser in
+            List(filteredUsers.isEmpty ? users : filteredUsers) { chatUser in
                 HStack {
                     // Profile picture
                     WebImage(url: URL(string: chatUser.profileImageUrl))
@@ -139,11 +150,13 @@ struct NewContactView: View {
     }
     
     func fetchUsers() {
+        users = []
+        let oldContacts = contacts
         let ref = Database.database().reference()
         ref.child("users").observe(.childAdded, with: { snapshot in
             guard let data = try? JSONSerialization.data(withJSONObject: snapshot.value as Any, options: []) else { return }
             let user = try? JSONDecoder().decode(ChatUser?.self, from: data)
-            if user!.uid != Auth.auth().currentUser?.uid && !contacts.contains(user!) {
+            if user!.uid != Auth.auth().currentUser?.uid && !oldContacts.contains(user!) {
                 users.append(user!)
             }
         })

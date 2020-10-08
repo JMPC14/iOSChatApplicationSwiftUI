@@ -38,7 +38,7 @@ struct ChatView: View {
                                 if displayTime || firstMessage {
                                     Text(message.timestamp)
                                         .font(.system(size: 10))
-                                        .padding(.top, firstMessage == true ? 10 : 0)
+                                        .padding(.top, firstMessage ? 10 : 0)
                                 }
                                 HStack {
                                     Spacer()
@@ -51,7 +51,7 @@ struct ChatView: View {
                                                 .cornerRadius(10)
                                         }
                                     } // VStack
-                                    if !previousAuthorIsIdentical || firstMessage {
+                                    if !previousAuthorIsIdentical || firstMessage || displayTime {
                                         WebImage(url: URL(string: FirebaseManager.manager.currentUser.profileImageUrl))
                                             .resizable()
                                             .scaledToFill()
@@ -62,7 +62,7 @@ struct ChatView: View {
                                     }
                                 } // HStack
                                 .id(message)
-                                .padding(.trailing, previousAuthorIsIdentical == true && firstMessage == false ? 48 : 0)
+                                .padding(.trailing, previousAuthorIsIdentical && firstMessage == false && displayTime == false ? 48 : 0)
                                 .onAppear {
                                     withAnimation {
                                         scroll.scrollTo(dummyArray.last)
@@ -72,11 +72,11 @@ struct ChatView: View {
                                 if displayTime || firstMessage {
                                     Text(message.timestamp)
                                         .font(.system(size: 10))
-                                        .padding(.top, firstMessage == true ? 10 : 0)
+                                        .padding(.top, firstMessage ? 10 : 0)
                                 }
                                 HStack {
                                     let colourChange = onlineUsers.contains(otherUser.uid)
-                                    if !previousAuthorIsIdentical || firstMessage {
+                                    if !previousAuthorIsIdentical || firstMessage || displayTime {
                                         WebImage(url: URL(string: otherUser.profileImageUrl))
                                             .resizable()
                                             .scaledToFill()
@@ -97,7 +97,7 @@ struct ChatView: View {
                                     } // VStack
                                 } // HStack
                                 .id(message)
-                                .padding(.leading, previousAuthorIsIdentical == true && firstMessage == false ? 48 : 0)
+                                .padding(.leading, previousAuthorIsIdentical && firstMessage == false && displayTime == false ? 48 : 0)
                                 .onAppear {
                                     withAnimation {
                                         scroll.scrollTo(dummyArray.last)
@@ -110,7 +110,7 @@ struct ChatView: View {
                         
                         ForEach(dummyArray) { i in
                             Text("Test")
-                                .frame(height: 20)
+                                .frame(height: 60)
                                 .foregroundColor(Color.clear)
                                 .id(i)
                         }
@@ -190,25 +190,37 @@ struct ChatView: View {
                         .padding(.horizontal, 10)
                         
                         HStack {
-                            Text("\(otherUser.username) is typing...")
+                            if otherUserTyping {
+                                Group {
+                                    Text(otherUser.username)
+                                        .fontWeight(.bold) +
+                                        Text(" is typing...")
+                                }
                                 .padding(.bottom, 2)
                                 .padding(.horizontal, 40)
-                                .opacity(otherUserTyping == true ? 1.0 : 0.0)
+                                .transition(AnyTransition.opacity.animation(.linear(duration: 0.1)))
+                            } else {
+                                Text("")
+                                    .padding(.bottom, 2)
+                                    .padding(.horizontal, 40)
+                                    .opacity(0.0)
+                            }
                             Spacer()
                         }
                         .frame(height: 25)
                     } // VStack
                     .padding(.top, 4)
                     .frame(height: 60)
-                    .background(LinearGradient(gradient: Gradient(colors: [Color.white.opacity(0.6), .white]), startPoint: .top, endPoint: .bottom)
+                    .background(LinearGradient(gradient: Gradient(colors: [Color.white.opacity(0.8), .white]), startPoint: .top, endPoint: .bottom)
+                                    .frame(height: 60)
                                     .edgesIgnoringSafeArea(.bottom))
-                    .offset(y: 60)
+//                    .offset(y: 60)
                 }
             } // ZStack
         } // VStack
         .onAppear {
-            hideTabbar()
-            disableTouchTabbar()
+//            hideTabbar()
+//            disableTouchTabbar()
             listenForMessages()
             listenForTypingIndicators()
         }

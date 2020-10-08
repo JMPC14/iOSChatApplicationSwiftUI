@@ -25,8 +25,8 @@ struct LatestMessagesView: View {
         
         NavigationView {
             List(latestMessageArray) { message in
-                let chatUser = self.dictionary[message.messageId]!
-                NavigationLink(destination: ChatView(otherUser: chatUser, onlineUsers: self.$onlineUsers)) {
+                let chatUser = dictionary[message.messageId]!
+                NavigationLink(destination: ChatView(otherUser: chatUser, onlineUsers: $onlineUsers)) {
                     HStack {
                         // Profile picture
                         WebImage(url: URL(string: chatUser.profileImageUrl))
@@ -73,9 +73,9 @@ struct LatestMessagesView: View {
                 
             }) {
                 Text("Menu")
-            }, trailing: NavigationLink(destination: SettingsView(), isActive: self.$showSettings) {
+            }, trailing: NavigationLink(destination: SettingsView(), isActive: $showSettings) {
                 Button(action: {
-                    self.showSettings = true
+                    showSettings = true
                 }) {
                     Text("Settings")
                 }
@@ -142,29 +142,29 @@ struct LatestMessagesView: View {
                 }
             }
             
-            if a!.fromId == Auth.auth().currentUser!.uid {
+            if a!.fromId == Auth.auth().currentUser?.uid {
                 let ref = Database.database().reference().child("users/\(a!.toId)")
                 ref.observe(.value) { snapshot in
                     guard let data = try? JSONSerialization.data(withJSONObject: snapshot.value as Any, options: []) else { return }
                     let user = try? JSONDecoder().decode(ChatUser?.self, from: data)
                     
-                    self.dictionary[a!.messageId] = user!
+                    dictionary[a!.messageId] = user!
                     
                     var changed = false
                     
-                    self.latestMessageArray.forEach { message in
+                    latestMessageArray.forEach { message in
                         if message.fromId == a!.toId || message.toId == a!.toId {
-                            let index = self.latestMessageArray.firstIndex(where: { $0 == message })
-                            self.latestMessageArray[index!] = a!
+                            let index = latestMessageArray.firstIndex(where: { $0 == message })
+                            latestMessageArray[index!] = a!
                             changed = true
                         }
                     }
                     
                     if !changed {
-                        self.latestMessageArray.append(a!)
+                        latestMessageArray.append(a!)
                     }
                     
-                    self.latestMessageArray = self.latestMessageArray.sorted(by: { $0.time > $1.time })
+                    latestMessageArray = latestMessageArray.sorted(by: { $0.time > $1.time })
                 }
             } else {
                 let ref = Database.database().reference().child("users/\(a!.fromId)")
@@ -172,23 +172,23 @@ struct LatestMessagesView: View {
                     guard let data = try? JSONSerialization.data(withJSONObject: snapshot.value as Any, options: []) else { return }
                     let user = try? JSONDecoder().decode(ChatUser?.self, from: data)
                     
-                    self.dictionary[a!.messageId] = user!
+                    dictionary[a!.messageId] = user!
                     
                     var changed = false
                     
-                    self.latestMessageArray.forEach { message in
+                    latestMessageArray.forEach { message in
                         if message.fromId == a!.fromId || message.toId == a!.fromId {
-                            let index = self.latestMessageArray.firstIndex(where: { $0 == message })
-                            self.latestMessageArray[index!] = a!
+                            let index = latestMessageArray.firstIndex(where: { $0 == message })
+                            latestMessageArray[index!] = a!
                             changed = true
                         }
                     }
                     
                     if !changed {
-                        self.latestMessageArray.append(a!)
+                        latestMessageArray.append(a!)
                     }
                     
-                    self.latestMessageArray = self.latestMessageArray.sorted(by: { $0.time > $1.time })
+                    latestMessageArray = latestMessageArray.sorted(by: { $0.time > $1.time })
                 }
             }
         }
