@@ -32,13 +32,13 @@ struct ChatView: View {
                             let index = messagesArray.firstIndex(where: { $0 == message })
                             let previousMessage = messagesArray[index! - 1 == -1 ? 0 : index! - 1]
                             let previousAuthorIsIdentical = previousMessage.fromId == message.fromId
-                            let firstMessage = index == 0 ? true : false
+                            let isFirstMessage = index == 0 ? true : false
                             let displayTime = (message.time - previousMessage.time) >= 60
                             if message.fromId == FirebaseManager.manager.currentUser.uid {
-                                if displayTime || firstMessage {
+                                if displayTime || isFirstMessage {
                                     Text(message.timestamp)
                                         .font(.system(size: 10))
-                                        .padding(.top, firstMessage ? 10 : 0)
+                                        .padding(.top, isFirstMessage ? 10 : 0)
                                 }
                                 HStack {
                                     Spacer()
@@ -51,7 +51,7 @@ struct ChatView: View {
                                                 .cornerRadius(10)
                                         }
                                     } // VStack
-                                    if !previousAuthorIsIdentical || firstMessage || displayTime {
+                                    if !previousAuthorIsIdentical || isFirstMessage || displayTime {
                                         WebImage(url: URL(string: FirebaseManager.manager.currentUser.profileImageUrl))
                                             .resizable()
                                             .scaledToFill()
@@ -62,21 +62,21 @@ struct ChatView: View {
                                     }
                                 } // HStack
                                 .id(message)
-                                .padding(.trailing, previousAuthorIsIdentical && firstMessage == false && displayTime == false ? 48 : 0)
+                                .padding(.trailing, previousAuthorIsIdentical && isFirstMessage == false && displayTime == false ? 48 : 0)
                                 .onAppear {
                                     withAnimation {
                                         scroll.scrollTo(dummyArray.last)
                                     }
                                 }
                             } else {
-                                if displayTime || firstMessage {
+                                if displayTime || isFirstMessage {
                                     Text(message.timestamp)
                                         .font(.system(size: 10))
-                                        .padding(.top, firstMessage ? 10 : 0)
+                                        .padding(.top, isFirstMessage ? 10 : 0)
                                 }
                                 HStack {
                                     let colourChange = onlineUsers.contains(otherUser.uid)
-                                    if !previousAuthorIsIdentical || firstMessage || displayTime {
+                                    if !previousAuthorIsIdentical || isFirstMessage || displayTime {
                                         WebImage(url: URL(string: otherUser.profileImageUrl))
                                             .resizable()
                                             .scaledToFill()
@@ -97,7 +97,7 @@ struct ChatView: View {
                                     } // VStack
                                 } // HStack
                                 .id(message)
-                                .padding(.leading, previousAuthorIsIdentical && firstMessage == false && displayTime == false ? 48 : 0)
+                                .padding(.leading, previousAuthorIsIdentical && isFirstMessage == false && displayTime == false ? 48 : 0)
                                 .onAppear {
                                     withAnimation {
                                         scroll.scrollTo(dummyArray.last)

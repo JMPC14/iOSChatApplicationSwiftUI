@@ -28,16 +28,9 @@ struct ContactsView: View {
                         .overlay(Circle().stroke(Color.black, lineWidth: 2))
                         .shadow(radius: 2)
                     
-                    VStack(alignment: .leading) {
-                        // Top text
-                        HStack {
-                            Text(chatUser.username)
-                                .fontWeight(.semibold)
-                                .padding(.bottom, 1)
-                        }
-                        .padding(.top, 5)
-                    } // VStack
-                    .padding(.leading, 5)
+                    Text(chatUser.username)
+                        .fontWeight(.semibold)
+                        .padding(.leading, 5)
                 } // HStack
             } // List
             .navigationTitle("Contacts")
@@ -97,7 +90,7 @@ struct NewContactView: View {
                     .onChange(of: filter) { value in
                         filteredUsers = [ChatUser]()
                         users.forEach { user in
-                            if user.username.lowercased().contains(filter) {
+                            if user.username.lowercased().contains(filter.lowercased()) {
                                 filteredUsers.append(user)
                             }
                         }
@@ -115,15 +108,9 @@ struct NewContactView: View {
                         .overlay(Circle().stroke(Color.black, lineWidth: 2))
                         .shadow(radius: 2)
                     
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Text(chatUser.username)
-                                .fontWeight(.semibold)
-                                .padding(.bottom, 1)
-                        }
-                        .padding(.top, 5)
-                    } // VStack
-                    .padding(.leading, 5)
+                    Text(chatUser.username)
+                        .fontWeight(.semibold)
+                        .padding(.leading, 5)
                 } // HStack
                 .onTapGesture {
                     var contactsUidList = [String]()

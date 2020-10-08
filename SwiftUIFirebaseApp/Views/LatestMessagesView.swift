@@ -21,6 +21,12 @@ struct LatestMessagesView: View {
     
     @State var showSettings = false
     
+    @State var showNewConversation = false
+    
+    @State var newConversationUser = ChatUser()
+    
+    @State var enactNewConversation = false
+    
     var body: some View {
         
         NavigationView {
@@ -69,16 +75,25 @@ struct LatestMessagesView: View {
                 } // NavigationLink
             } // List
             .navigationBarTitle("Latest Messages")
-            .navigationBarItems(leading: Button(action: {
-                
-            }) {
-                Text("Menu")
-            }, trailing: NavigationLink(destination: SettingsView(), isActive: $showSettings) {
+            .navigationBarItems(leading: NavigationLink(destination: SettingsView(), isActive: $showSettings) {
                 Button(action: {
                     showSettings = true
                 }) {
                     Text("Settings")
                 }
+            }, trailing: Button(action: {
+                // New Conversation
+                showNewConversation = true
+            }) {
+                Image(systemName: "plus")
+                    .font(.system(size: 26, weight: .light))
+            }
+            .sheet(isPresented: $showNewConversation, onDismiss: {
+                if enactNewConversation  {
+                    
+                }
+            }) {
+                NewConversation(showNewConversation: $showNewConversation, newConversationUser: $newConversationUser, enactNewConversation: $enactNewConversation)
             })
         } // NavigationView
         .navigationViewStyle(StackNavigationViewStyle())
@@ -192,5 +207,92 @@ struct LatestMessagesView: View {
                 }
             }
         }
+    }
+}
+
+struct NewConversation: View {
+    
+    @Binding var showNewConversation: Bool
+    
+    @Binding var newConversationUser: ChatUser
+    
+    @Binding var enactNewConversation: Bool
+    
+    @State var contacts = [ChatUser]()
+    
+    var body: some View {
+        VStack {
+            HStack {
+                Text("New Conversation")
+                    .bold()
+                    .font(.system(size: 32))
+                    .padding()
+                Spacer()
+                Button(action: {
+                    showNewConversation = false
+                }) {
+                    Text("Cancel")
+                        .padding()
+                }
+            }
+            List(contacts) { chatUser in
+                HStack {
+                    // Profile picture
+                    WebImage(url: URL(string: chatUser.profileImageUrl))
+                        .resizable()
+                        .scaledToFill()
+                        .clipShape(Circle())
+                        .frame(width: 55, height: 55)
+                        .overlay(Circle().stroke(Color.black, lineWidth: 2))
+                        .shadow(radius: 2)
+                    
+                    Text(chatUser.username)
+                        .fontWeight(.semibold)
+                        .padding(.leading, 5)
+                } // HStack
+                .onTapGesture {
+                    checkForConversation(chatUser)
+                }
+            } // List
+            .navigationTitle("New Conversation")
+            .onAppear {
+                fetchContacts()
+            }
+        }
+    }
+    
+    func fetchContacts() {
+        contacts = []
+        let ref = Database.database().reference()
+        ref.child("users/\(FirebaseManager.manager.currentUser.uid)/contacts").observe(.childAdded, with: { snapshot in
+            let newRef = Database.database().reference()
+            newRef.child("users/\(snapshot.value!)").observe(.value, with: { snapshot in
+                guard let data = try? JSONSerialization.data(withJSONObject: snapshot.value as Any, options: []) else { return }
+                let user = try? JSONDecoder().decode(ChatUser?.self, from: data)
+                
+                contacts.append(user!)
+            })
+        })
+    }
+    
+    func checkForConversation(_ otherUser: ChatUser) {
+        let ref = Database.database().reference()
+        ref.child("user-messages/\(Auth.auth().currentUser!.uid)").observeSingleEvent(of: .value, with: { snapshot in
+            if snapshot.hasChild(otherUser.uid) {
+                newConversationUser = otherUser
+                enactNewConversation = true
+                showNewConversation = false
+            } else {
+                let cid = UUID.init().uuidString
+                ref.child("user-messages/\(Auth.auth().currentUser!.uid)/\(otherUser.uid)/cid").setValue(cid, withCompletionBlock: { error, snapshot in
+                    let otherRef = Database.database().reference()
+                    otherRef.child("user-messages/\(otherUser.uid)/\(Auth.auth().currentUser!.uid)/cid").setValue(cid, withCompletionBlock: { error, snapshot in
+                        newConversationUser = otherUser
+                        enactNewConversation = true
+                        showNewConversation = false
+                    })
+                })
+            }
+        })
     }
 }

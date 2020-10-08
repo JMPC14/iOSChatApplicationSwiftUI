@@ -16,7 +16,6 @@ struct LauncherView: View {
     }
     
     init() {
-//        try! Auth.auth().signOut()
         retrieveUser()
     }
     
