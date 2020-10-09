@@ -25,6 +25,7 @@
 		C12CA8FB252DF18700CC3065 /* ContactsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C12CA8FA252DF18700CC3065 /* ContactsView.swift */; };
 		C14B891E252DBB1100B1749C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14B891D252DBB1100B1749C /* SettingsView.swift */; };
 		C1BDF030252EFBFC001156DF /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BDF02F252EFBFC001156DF /* ProfileView.swift */; };
+		C1BDF05F253063A1001156DF /* ImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1BDF05E253063A1001156DF /* ImagePickerController.swift */; };
 		C3147CC0A4284D3876AB6ACE /* Pods_SwiftUIFirebaseApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8065960459FFB9661953DCA /* Pods_SwiftUIFirebaseApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +52,7 @@
 		C12CA8FA252DF18700CC3065 /* ContactsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsView.swift; sourceTree = "<group>"; };
 		C14B891D252DBB1100B1749C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		C1BDF02F252EFBFC001156DF /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		C1BDF05E253063A1001156DF /* ImagePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerController.swift; sourceTree = "<group>"; };
 		D8065960459FFB9661953DCA /* Pods_SwiftUIFirebaseApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftUIFirebaseApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -146,6 +148,7 @@
 			children = (
 				C1247CEE252611DD00250AF8 /* FirebaseManager.swift */,
 				C12CA8F6252DEA1A00CC3065 /* MainTabViewModel.swift */,
+				C1BDF05E253063A1001156DF /* ImagePickerController.swift */,
 			);
 			path = Misc;
 			sourceTree = "<group>";
@@ -281,6 +284,7 @@
 				C1247CEF252611DD00250AF8 /* FirebaseManager.swift in Sources */,
 				C1247D64252B1C5E00250AF8 /* ChatView.swift in Sources */,
 				C1247CC82525FCD600250AF8 /* AppDelegate.swift in Sources */,
+				C1BDF05F253063A1001156DF /* ImagePickerController.swift in Sources */,
 				C1247CCA2525FCD600250AF8 /* SceneDelegate.swift in Sources */,
 				C1BDF030252EFBFC001156DF /* ProfileView.swift in Sources */,
 				C1247D3E25275EC300250AF8 /* LatestMessagesView.swift in Sources */,

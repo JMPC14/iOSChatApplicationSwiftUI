@@ -12,9 +12,9 @@ target 'SwiftUIFirebaseApp' do
   pod 'Firebase/Database'
   pod 'Firebase/Auth'
 #  pod 'Firebase/Firestore'
-#  pod 'Firebase/Storage'
+  pod 'Firebase/Storage'
 #  pod 'Firebase/Messaging'
-#  pod 'FirebaseUI/Storage'
+  pod 'FirebaseUI/Storage'
   pod 'SDWebImageSwiftUI'
   pod 'Introspect'
 

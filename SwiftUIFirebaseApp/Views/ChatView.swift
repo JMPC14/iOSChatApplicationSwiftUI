@@ -8,6 +8,7 @@
 import SwiftUI
 import Firebase
 import SDWebImageSwiftUI
+import UIKit
 
 struct ChatView: View {
     
@@ -23,6 +24,10 @@ struct ChatView: View {
     @Binding var onlineUsers: [String]
     
     @Environment(\.openURL) var openURL
+    
+    @State private var showPhotoLibrary = false
+    @State private var image = UIImage()
+    @State private var attachedImageUrl = ""
     
     var body: some View {
 
@@ -150,7 +155,7 @@ struct ChatView: View {
                     VStack {
                         HStack {
                             Button(action: {
-                                
+                                showPhotoLibrary = true
                             }) {
                                 Image(systemName: "camera")
                                     .font(.system(size: 22, weight: .ultraLight))
@@ -191,7 +196,7 @@ struct ChatView: View {
                                         newMinute = String(minute)
                                     }
                                     
-                                    let chatMessage = ChatMessage(
+                                    var chatMessage = ChatMessage(
                                         FirebaseManager.manager.currentUser.uid,
                                         ref.key!,
                                         writing,
@@ -199,6 +204,10 @@ struct ChatView: View {
                                         "\(dayOfMonth!) \(nameOfMonth), \(newHour):\(newMinute)",
                                         otherUser.uid
                                     )
+                                    
+                                    if attachedImageUrl != "" {
+                                        chatMessage.imageUrl = attachedImageUrl
+                                    }
                                     
                                     ref.setValue(chatMessage.toAnyObject())
                                     
@@ -246,6 +255,9 @@ struct ChatView: View {
                 }
             } // ZStack
         } // VStack
+        .sheet(isPresented: $showPhotoLibrary) {
+            ImagePicker(selectedImage: $image, attachedImageUrl: $attachedImageUrl, sourceType: .photoLibrary)
+        }
         .onAppear {
             listenForMessages()
             listenForTypingIndicators()
