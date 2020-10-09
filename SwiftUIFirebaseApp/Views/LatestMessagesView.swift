@@ -14,17 +14,13 @@ import Introspect
 struct LatestMessagesView: View {
     
     @State var latestMessageArray = [ChatMessage]()
-    
     @State var dictionary = [String : ChatUser]()
     
     @State var onlineUsers = [String]()
-    
     @State var showSettings = false
     
     @State var showNewConversation = false
-    
     @State var newConversationUser = ChatUser()
-    
     @State var enactNewConversation = false
     
     var body: some View {
@@ -151,59 +147,59 @@ struct LatestMessagesView: View {
     
     func refreshLatestMessages(_ snapshot: DataSnapshot) {
         guard let data = try? JSONSerialization.data(withJSONObject: snapshot.value as Any, options: []) else { return }
-        let a = try? JSONDecoder().decode(ChatMessage?.self, from: data)
+        let message = try? JSONDecoder().decode(ChatMessage?.self, from: data)
         
-        if a != nil {
+        if message != nil {
             if FirebaseManager.manager.currentUser.blocklist != nil {
-                if FirebaseManager.manager.currentUser.blocklist!.contains(a!.fromId) || FirebaseManager.manager.currentUser.blocklist!.contains(a!.toId) {
+                if FirebaseManager.manager.currentUser.blocklist!.contains(message!.fromId) || FirebaseManager.manager.currentUser.blocklist!.contains(message!.toId) {
                     return
                 }
             }
             
-            if a!.fromId == Auth.auth().currentUser?.uid {
-                let ref = Database.database().reference().child("users/\(a!.toId)")
+            if message!.fromId == Auth.auth().currentUser?.uid {
+                let ref = Database.database().reference().child("users/\(message!.toId)")
                 ref.observe(.value) { snapshot in
                     guard let data = try? JSONSerialization.data(withJSONObject: snapshot.value as Any, options: []) else { return }
                     let user = try? JSONDecoder().decode(ChatUser?.self, from: data)
                     
-                    dictionary[a!.messageId] = user!
+                    dictionary[message!.messageId] = user!
                     
                     var changed = false
                     
-                    latestMessageArray.forEach { message in
-                        if message.fromId == a!.toId || message.toId == a!.toId {
-                            let index = latestMessageArray.firstIndex(where: { $0 == message })
-                            latestMessageArray[index!] = a!
+                    latestMessageArray.forEach { arrayMessage in
+                        if arrayMessage.fromId == message!.toId || arrayMessage.toId == message!.toId {
+                            let index = latestMessageArray.firstIndex(where: { $0 == arrayMessage })
+                            latestMessageArray[index!] = message!
                             changed = true
                         }
                     }
                     
                     if !changed {
-                        latestMessageArray.append(a!)
+                        latestMessageArray.append(message!)
                     }
                     
                     latestMessageArray = latestMessageArray.sorted(by: { $0.time > $1.time })
                 }
             } else {
-                let ref = Database.database().reference().child("users/\(a!.fromId)")
+                let ref = Database.database().reference().child("users/\(message!.fromId)")
                 ref.observe(.value) { snapshot in
                     guard let data = try? JSONSerialization.data(withJSONObject: snapshot.value as Any, options: []) else { return }
                     let user = try? JSONDecoder().decode(ChatUser?.self, from: data)
                     
-                    dictionary[a!.messageId] = user!
+                    dictionary[message!.messageId] = user!
                     
                     var changed = false
                     
-                    latestMessageArray.forEach { message in
-                        if message.fromId == a!.fromId || message.toId == a!.fromId {
-                            let index = latestMessageArray.firstIndex(where: { $0 == message })
-                            latestMessageArray[index!] = a!
+                    latestMessageArray.forEach { arrayMessage in
+                        if arrayMessage.fromId == message!.fromId || arrayMessage.toId == message!.fromId {
+                            let index = latestMessageArray.firstIndex(where: { $0 == arrayMessage })
+                            latestMessageArray[index!] = message!
                             changed = true
                         }
                     }
                     
                     if !changed {
-                        latestMessageArray.append(a!)
+                        latestMessageArray.append(message!)
                     }
                     
                     latestMessageArray = latestMessageArray.sorted(by: { $0.time > $1.time })

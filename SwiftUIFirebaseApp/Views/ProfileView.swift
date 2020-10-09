@@ -78,10 +78,6 @@ struct ProfileView: View {
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         .background(Color.green.edgesIgnoringSafeArea(.all))
     }
-    
-    func retrieveProfile() {
-        
-    }
 }
 
 struct ProfileView_Previews: PreviewProvider {

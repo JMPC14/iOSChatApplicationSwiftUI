@@ -22,11 +22,8 @@ struct Login: View {
     var body: some View {
         
         ZStack {
-            
             VStack {
-                
                 HStack {
-                    
                     Spacer()
                     
                     Button(action: {
@@ -45,9 +42,7 @@ struct Login: View {
             } // VStack
             
             ZStack {
-                
                 VStack {
-                    
                     Image("image_bird")
                         .resizable()
                         .scaledToFit()
@@ -167,15 +162,6 @@ struct Login: View {
                 NotificationCenter.default.post(name: NSNotification.Name("status"), object: nil)
             }
         })
-    }
-}
-
-struct SignInView_Previews: PreviewProvider {
-    static var previews: some View {
-//        Login(show: Binding.constant(false))
-//            .background(Color("DefaultGreen").ignoresSafeArea(edges: .all))
-        
-        ResetPassword(resettingPassword: Binding.constant(true))
     }
 }
 

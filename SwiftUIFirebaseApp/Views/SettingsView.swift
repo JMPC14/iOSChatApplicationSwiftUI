@@ -8,6 +8,7 @@
 import SwiftUI
 import Firebase
 import UIKit
+import SDWebImageSwiftUI
 
 struct SettingsView: View {
     
@@ -50,8 +51,34 @@ struct BlocklistView: View {
     var body: some View {
         VStack {
             List(blocklist) { chatUser in
-                Text("Test")
-            }
+                HStack {
+                    // Profile picture
+                    WebImage(url: URL(string: chatUser.profileImageUrl))
+                        .resizable()
+                        .scaledToFill()
+                        .clipShape(Circle())
+                        .frame(width: 55, height: 55)
+                        .overlay(Circle().stroke(Color.black, lineWidth: 2))
+                        .shadow(radius: 2)
+                    
+                    // Username
+                    Text(chatUser.username)
+                        .fontWeight(.semibold)
+                        .padding(.leading, 5)
+                } // HStack
+                // Remove user from block list
+                
+                .onTapGesture {
+                    
+                    if FirebaseManager.manager.currentUser.blocklist!.contains(chatUser.uid) {
+                        FirebaseManager.manager.currentUser.blocklist!.removeAll(where: {$0 == chatUser.uid})
+                        blocklist.removeAll(where: {$0 == chatUser})
+                    }
+
+                    let ref = Database.database().reference()
+                    ref.child("users/\(Auth.auth().currentUser!.uid)/blocklist").setValue(FirebaseManager.manager.currentUser.blocklist)
+                }
+            } // List
             
             if blocklist.isEmpty {
                 VStack {
@@ -68,15 +95,14 @@ struct BlocklistView: View {
     
     func fetchBlocklist() {
         blocklist = []
-        let ref = Database.database().reference()
-        ref.child("users/\(Auth.auth().currentUser!.uid)/blocklist").observe(.childAdded, with: { snapshot in
+        FirebaseManager.manager.currentUser.blocklist?.forEach { uid in
             let newRef = Database.database().reference()
-            newRef.child("users/\(snapshot.value!)").observe(.value) { snapshot in
+            newRef.child("users/\(uid)").observe(.value) { snapshot in
                 guard let data = try? JSONSerialization.data(withJSONObject: snapshot.value as Any, options: []) else { return }
                 let user = try? JSONDecoder().decode(ChatUser?.self, from: data)
                 blocklist.append(user!)
-                blocklist = self.blocklist.sorted(by: { $1.username > $0.username })
+                blocklist = blocklist.sorted(by: { $1.username.lowercased() > $0.username.lowercased() })
             }
-        })
+        }
     }
 }

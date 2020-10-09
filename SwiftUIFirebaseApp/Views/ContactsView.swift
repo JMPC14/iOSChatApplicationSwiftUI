@@ -12,9 +12,7 @@ import SDWebImageSwiftUI
 struct ContactsView: View {
     
     @State var contacts = [ChatUser]()
-    
     @State var addingNewContact = false
-    
     @State var showSettings = false
     
     var body: some View {
@@ -60,31 +58,25 @@ struct ContactsView: View {
     
     func fetchContacts() {
         contacts = []
-        let ref = Database.database().reference()
-        ref.child("users/\(FirebaseManager.manager.currentUser.uid)/contacts").observe(.childAdded, with: { snapshot in
+        FirebaseManager.manager.currentUser.contacts?.forEach { uid in
             let newRef = Database.database().reference()
-            newRef.child("users/\(snapshot.value!)").observe(.value, with: { snapshot in
+            newRef.child("users/\(uid)").observe(.value) { snapshot in
                 guard let data = try? JSONSerialization.data(withJSONObject: snapshot.value as Any, options: []) else { return }
                 let user = try? JSONDecoder().decode(ChatUser?.self, from: data)
-                
                 contacts.append(user!)
-            })
-        })
+                contacts = contacts.sorted(by: { $1.username.lowercased() > $0.username.lowercased() })
+            }
+        }
     }
 }
 
 struct NewContactView: View {
     
     @State var users = [ChatUser]()
-    
-    @State var filteredUsers = [ChatUser]()
-    
-    @Binding var contacts: [ChatUser]
-    
     @State var filter = ""
-    
+    @State var filteredUsers = [ChatUser]()
+    @Binding var contacts: [ChatUser]
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
     @Binding var addingNewContact: Bool
     
     var body: some View {

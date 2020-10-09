@@ -17,13 +17,11 @@ struct ChatView: View {
     var otherUser: ChatUser
     @State var cid = ""
     @State var otherUserTyping = false
-    @State var scrollPosition = 0
-    
     @State var dummyArray = [ChatMessage("testFromId", "testMessageId", "testText", 0, "testTimestamp", "testToId")]
-    
     @Binding var onlineUsers: [String]
-    
     @Environment(\.openURL) var openURL
+    @State var showAlert = false
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     @State private var showPhotoLibrary = false
     @State private var image = UIImage()
@@ -41,6 +39,7 @@ struct ChatView: View {
                             let previousAuthorIsIdentical = previousMessage.fromId == message.fromId
                             let isFirstMessage = index == 0 ? true : false
                             let displayTime = (message.time - previousMessage.time) >= 60
+                            // Chat Scroll View
                             if message.fromId == FirebaseManager.manager.currentUser.uid {
                                 if displayTime || isFirstMessage {
                                     Text(message.timestamp)
@@ -49,17 +48,20 @@ struct ChatView: View {
                                 }
                                 HStack {
                                     Spacer()
+                                    
                                     VStack(alignment: .trailing) {
                                         if message.imageUrl != nil {
-                                            WebImage(url: URL(string: message.imageUrl!))
-                                                .resizable()
-                                                .scaledToFill()
-                                                .cornerRadius(8)
-                                                .frame(width: 150, height: 150)
-                                                .offset(x: message.text == "" ? -32 : -24)
-                                                .onTapGesture {
-                                                    openURL(URL(string: message.imageUrl!)!)
-                                                }
+                                            HStack {
+                                                WebImage(url: URL(string: message.imageUrl!))
+                                                    .resizable()
+                                                    .scaledToFill()
+                                                    .cornerRadius(8)
+                                                    .frame(width: 100, height: 100)
+                                                    .offset(x: message.text == "" ? -32 : -24)
+                                                    .onTapGesture {
+                                                        openURL(URL(string: message.imageUrl!)!)
+                                                    }
+                                            }
                                         }
                                         HStack {
                                             if message.text != "" {
@@ -111,7 +113,7 @@ struct ChatView: View {
                                                 .resizable()
                                                 .scaledToFill()
                                                 .cornerRadius(8)
-                                                .frame(width: 150, height: 150)
+                                                .frame(width: 100, height: 100)
                                                 .offset(x: message.text == "" ? 32 : 24)
                                                 .onTapGesture {
                                                     openURL(URL(string: message.imageUrl!)!)
@@ -136,10 +138,36 @@ struct ChatView: View {
                                         scroll.scrollTo(dummyArray.last)
                                     }
                                 }
+                                .onTapGesture {
+                                    // Show Alert
+                                    showAlert.toggle()
+                                }
+                                .alert(isPresented: $showAlert) {
+                                    Alert(
+                                        title: Text(otherUser.username),
+                                        message: Text("Do you want to block this user?"),
+                                        primaryButton: .destructive(Text("Yes"), action: {
+                                            // Block
+                                            if FirebaseManager.manager.currentUser.blocklist == nil {
+                                                FirebaseManager.manager.currentUser.blocklist = [String]()
+                                            }
+                                            
+                                            FirebaseManager.manager.currentUser.blocklist?.append(otherUser.uid)
+                                            
+                                            let blockRef = Database.database().reference().child("users/\(Auth.auth().currentUser!.uid)")
+                                            blockRef.child("blocklist").setValue(FirebaseManager.manager.currentUser.blocklist, withCompletionBlock: { error, snapshot in
+                                                presentationMode.wrappedValue.dismiss()
+                                            })
+                                        }),
+                                        secondaryButton: .cancel(Text("No"), action: {
+                                            
+                                        })
+                                    )
+                                }
                             }
                         } // ForEach
                         .padding(.horizontal, 10)
-                        .navigationBarTitle(otherUser.username, displayMode: .inline)
+                        .navigationBarTitle(otherUser.username)
                         
                         ForEach(dummyArray) { i in
                             Text("Test")
@@ -150,8 +178,10 @@ struct ChatView: View {
                     } // ScrollViewReader
                 } // ScrollView
                 
+                // Chat Message Bar
                 VStack {
                     Spacer()
+                    
                     VStack {
                         HStack {
                             Button(action: {
@@ -160,6 +190,7 @@ struct ChatView: View {
                                 Image(systemName: "camera")
                                     .font(.system(size: 22, weight: .ultraLight))
                             }
+                            
                             TextField("Enter a message...", text: $writing)
                                 .frame(height: 15)
                                 .padding(10)
@@ -282,7 +313,6 @@ struct ChatView: View {
     func listenForTypingIndicators() {
         
         func checkSnapshot(_ snapshot: DataSnapshot) {
-            
             if snapshot.key == "typing" {
                 if snapshot.value as! Bool == true {
                     otherUserTyping = true

@@ -50,9 +50,7 @@ struct Home: View {
     
     @State private var show = false
     @State private var status = false
-    
     @State var viewModel = MainTabViewModel()
-    
     @State var tabSelected = 0
     
     var body: some View {

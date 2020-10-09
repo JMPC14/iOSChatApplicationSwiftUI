@@ -23,9 +23,7 @@ struct Register: View {
     
     var body: some View {
         ZStack {
-            
             ZStack(alignment: .topLeading) {
-                
                 Button(action: {
                     
                     self.show.toggle()
@@ -38,7 +36,6 @@ struct Register: View {
                 .padding()
                 
                 VStack {
-                    
                     Image("image_bird")
                         .resizable()
                         .scaledToFit()
@@ -141,6 +138,7 @@ struct Register: View {
                     // Error
                     self.error = error!.localizedDescription
                     print(self.error)
+                    self.alert.toggle()
                 } else {
                     // Register
                     self.register()
