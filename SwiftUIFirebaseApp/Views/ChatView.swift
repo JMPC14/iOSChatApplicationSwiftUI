@@ -22,6 +22,8 @@ struct ChatView: View {
     
     @Binding var onlineUsers: [String]
     
+    @Environment(\.openURL) var openURL
+    
     var body: some View {
 
         VStack {
@@ -42,13 +44,26 @@ struct ChatView: View {
                                 }
                                 HStack {
                                     Spacer()
-                                    VStack {
+                                    VStack(alignment: .trailing) {
+                                        if message.imageUrl != nil {
+                                            WebImage(url: URL(string: message.imageUrl!))
+                                                .resizable()
+                                                .scaledToFill()
+                                                .cornerRadius(8)
+                                                .frame(width: 150, height: 150)
+                                                .offset(x: message.text == "" ? -32 : -24)
+                                                .onTapGesture {
+                                                    openURL(URL(string: message.imageUrl!)!)
+                                                }
+                                        }
                                         HStack {
-                                            Spacer()
-                                            Text(message.text)
-                                                .padding(5)
-                                                .background(Color("LightGreen"))
-                                                .cornerRadius(10)
+                                            if message.text != "" {
+                                                Spacer()
+                                                Text(message.text)
+                                                    .padding(5)
+                                                    .background(Color("LightGreen"))
+                                                    .cornerRadius(10)
+                                            }
                                         }
                                     } // VStack
                                     if !previousAuthorIsIdentical || isFirstMessage || displayTime {
@@ -85,13 +100,26 @@ struct ChatView: View {
                                             .overlay(Circle().stroke(colourChange ? Color.green : Color.black, lineWidth: 2))
                                             .shadow(radius: 1)
                                     }
-                                    VStack {
+                                    VStack(alignment: .leading) {
+                                        if message.imageUrl != nil {
+                                            WebImage(url: URL(string: message.imageUrl!))
+                                                .resizable()
+                                                .scaledToFill()
+                                                .cornerRadius(8)
+                                                .frame(width: 150, height: 150)
+                                                .offset(x: message.text == "" ? 32 : 24)
+                                                .onTapGesture {
+                                                    openURL(URL(string: message.imageUrl!)!)
+                                                }
+                                        }
                                         HStack {
-                                            Text(message.text)
-                                                .padding(5)
-                                                .background(Color(UIColor.systemGray5))
-                                                .cornerRadius(10)
-                                                .id(message.id)
+                                            if message.text != "" {
+                                                Text(message.text)
+                                                    .padding(5)
+                                                    .background(Color(UIColor.systemGray5))
+                                                    .cornerRadius(10)
+                                                    .id(message.id)
+                                            }
                                             Spacer()
                                         }
                                     } // VStack
@@ -188,6 +216,7 @@ struct ChatView: View {
                             
                         } // HStack
                         .padding(.horizontal, 10)
+                        .padding(.top, 20)
                         
                         HStack {
                             if otherUserTyping {

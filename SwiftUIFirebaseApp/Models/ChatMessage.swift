@@ -18,7 +18,7 @@ struct ChatMessage: Codable, Equatable, Hashable {
     var fileType: String?
 
     enum CodingKeys: String, CodingKey {
-        case fromId, text, time, timestamp, toId
+        case fromId, text, time, timestamp, toId, imageUrl
         case messageId = "id"
     }
     
