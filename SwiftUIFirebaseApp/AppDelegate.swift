@@ -16,7 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
-//        UITableView.appearance().backgroundColor = UserDefaults.standard.bool(forKey: "DarkMode") == true ? UIColor.black : UIColor.white
         return true
     }
 

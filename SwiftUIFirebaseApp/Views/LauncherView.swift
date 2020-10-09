@@ -38,14 +38,6 @@ struct LauncherView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        LauncherView()
-            .previewDevice("iPhone 11 Pro Max")
-            .statusBar(hidden: false)
-    }
-}
-
 struct Home: View {
     
     @State private var show = false
