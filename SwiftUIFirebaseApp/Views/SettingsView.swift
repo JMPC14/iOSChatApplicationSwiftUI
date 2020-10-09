@@ -44,10 +44,39 @@ struct SettingsView_Previews: PreviewProvider {
 }
 
 struct BlocklistView: View {
+    
+    @State var blocklist = [ChatUser]()
+    
     var body: some View {
-        List {
-            Text("Test")
+        VStack {
+            List(blocklist) { chatUser in
+                Text("Test")
+            }
+            
+            if blocklist.isEmpty {
+                VStack {
+                    Text("You have no blocked users!")
+                    Spacer()
+                }
+            }
         }
         .navigationBarTitle("Blocked Users")
+        .onAppear {
+            fetchBlocklist()
+        }
+    }
+    
+    func fetchBlocklist() {
+        blocklist = []
+        let ref = Database.database().reference()
+        ref.child("users/\(Auth.auth().currentUser!.uid)/blocklist").observe(.childAdded, with: { snapshot in
+            let newRef = Database.database().reference()
+            newRef.child("users/\(snapshot.value!)").observe(.value) { snapshot in
+                guard let data = try? JSONSerialization.data(withJSONObject: snapshot.value as Any, options: []) else { return }
+                let user = try? JSONDecoder().decode(ChatUser?.self, from: data)
+                blocklist.append(user!)
+                blocklist = self.blocklist.sorted(by: { $1.username > $0.username })
+            }
+        })
     }
 }

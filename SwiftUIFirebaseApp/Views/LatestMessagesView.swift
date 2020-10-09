@@ -30,71 +30,74 @@ struct LatestMessagesView: View {
     var body: some View {
         
         NavigationView {
-            List(latestMessageArray) { message in
-                let chatUser = dictionary[message.messageId]!
-                NavigationLink(destination: ChatView(otherUser: chatUser, onlineUsers: $onlineUsers)) {
-                    HStack {
-                        // Profile picture
-                        WebImage(url: URL(string: chatUser.profileImageUrl))
-                            .resizable()
-                            .scaledToFill()
-                            .clipShape(Circle())
-                            .frame(width: 55, height: 55)
-                            .overlay(Circle().stroke(Color.black, lineWidth: 2))
-                            .shadow(radius: 2)
-                        
-                        VStack(alignment: .leading) {
-                            // Top text
-                            HStack {
-                                Text(chatUser.username)
-                                    .fontWeight(.semibold)
-                                    .padding(.bottom, 1)
-                                if onlineUsers.contains(chatUser.uid) {
-                                    Image(systemName: "circle.fill")
-                                        .font(.system(size: 10, weight: .ultraLight))
-                                        .foregroundColor(Color.green)
+            VStack {
+                if enactNewConversation {
+                    NavigationLink(destination: ChatView(otherUser: newConversationUser, onlineUsers: $onlineUsers), isActive: $enactNewConversation) {}
+                    .hidden()
+                }
+                
+                List(latestMessageArray) { message in
+                    let chatUser = dictionary[message.messageId]!
+                    NavigationLink(destination: ChatView(otherUser: chatUser, onlineUsers: $onlineUsers)) {
+                        HStack {
+                            // Profile picture
+                            WebImage(url: URL(string: chatUser.profileImageUrl))
+                                .resizable()
+                                .scaledToFill()
+                                .clipShape(Circle())
+                                .frame(width: 55, height: 55)
+                                .overlay(Circle().stroke(Color.black, lineWidth: 2))
+                                .shadow(radius: 2)
+                            
+                            VStack(alignment: .leading) {
+                                // Top text
+                                HStack {
+                                    Text(chatUser.username)
+                                        .fontWeight(.semibold)
+                                        .padding(.bottom, 1)
+                                    if onlineUsers.contains(chatUser.uid) {
+                                        Image(systemName: "circle.fill")
+                                            .font(.system(size: 10, weight: .ultraLight))
+                                            .foregroundColor(Color.green)
+                                    }
+                                    Spacer()
                                 }
+                                .padding(.top, 5)
+                                
                                 Spacer()
-                            }
-                            .padding(.top, 5)
-                            
-                            Spacer()
-                            
-                            // Bottom text
-                            Text(message.fromId == FirebaseManager.manager.currentUser.uid ? "You: \(message.text)" : "Them: \(message.text)")
-                                .padding(.bottom, 5)
-                                .lineLimit(1)
-                        } // VStack
-                        .padding(.leading, 5)
-                    } // HStack
-                    .onAppear {
-                        showTabbar()
-                        enableTouchTabbar()
+                                
+                                // Bottom text
+                                Text(message.fromId == FirebaseManager.manager.currentUser.uid ? "You: \(message.text)" : "Them: \(message.text)")
+                                    .padding(.bottom, 5)
+                                    .lineLimit(1)
+                            } // VStack
+                            .padding(.leading, 5)
+                        } // HStack
+                        .onAppear {
+                            showTabbar()
+                            enableTouchTabbar()
+                        }
+                        .frame(maxHeight: 120)
+                    } // NavigationLink
+                } // List
+                .navigationBarTitle("Latest Messages")
+                .navigationBarItems(leading: NavigationLink(destination: SettingsView(), isActive: $showSettings) {
+                    Button(action: {
+                        showSettings = true
+                    }) {
+                        Text("Settings")
                     }
-                    .frame(maxHeight: 120)
-                } // NavigationLink
-            } // List
-            .navigationBarTitle("Latest Messages")
-            .navigationBarItems(leading: NavigationLink(destination: SettingsView(), isActive: $showSettings) {
-                Button(action: {
-                    showSettings = true
+                }, trailing: Button(action: {
+                    // New Conversation
+                    showNewConversation = true
                 }) {
-                    Text("Settings")
+                    Image(systemName: "plus")
+                        .font(.system(size: 26, weight: .light))
                 }
-            }, trailing: Button(action: {
-                // New Conversation
-                showNewConversation = true
-            }) {
-                Image(systemName: "plus")
-                    .font(.system(size: 26, weight: .light))
+                .sheet(isPresented: $showNewConversation) {
+                    NewConversation(showNewConversation: $showNewConversation, newConversationUser: $newConversationUser, enactNewConversation: $enactNewConversation)
+                })
             }
-            .sheet(isPresented: $showNewConversation, onDismiss: {
-                if enactNewConversation  {
-                    
-                }
-            }) {
-                NewConversation(showNewConversation: $showNewConversation, newConversationUser: $newConversationUser, enactNewConversation: $enactNewConversation)
-            })
         } // NavigationView
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {

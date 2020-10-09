@@ -15,6 +15,8 @@ struct ContactsView: View {
     
     @State var addingNewContact = false
     
+    @State var showSettings = false
+    
     var body: some View {
         NavigationView {
             List(contacts) { chatUser in
@@ -34,7 +36,14 @@ struct ContactsView: View {
                 } // HStack
             } // List
             .navigationTitle("Contacts")
-            .navigationBarItems(trailing: NavigationLink(destination: NewContactView(contacts: $contacts, addingNewContact: $addingNewContact), isActive: $addingNewContact) {
+            .navigationBarItems(leading: NavigationLink(destination: SettingsView(), isActive: $showSettings) {
+                Button(action: {
+                    showSettings = true
+                }) {
+                    Text("Settings")
+                }
+            },
+            trailing: NavigationLink(destination: NewContactView(contacts: $contacts, addingNewContact: $addingNewContact), isActive: $addingNewContact) {
                 Button(action: {
                     addingNewContact = true
                 }) {
@@ -142,12 +151,11 @@ struct NewContactView: View {
     
     func fetchUsers() {
         users = []
-        let oldContacts = contacts
         let ref = Database.database().reference()
         ref.child("users").observe(.childAdded, with: { snapshot in
             guard let data = try? JSONSerialization.data(withJSONObject: snapshot.value as Any, options: []) else { return }
             let user = try? JSONDecoder().decode(ChatUser?.self, from: data)
-            if user!.uid != Auth.auth().currentUser?.uid && !oldContacts.contains(user!) {
+            if user!.uid != Auth.auth().currentUser?.uid && !contacts.contains(user!) {
                 users.append(user!)
             }
         })
