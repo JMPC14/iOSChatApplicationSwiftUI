@@ -143,7 +143,7 @@ struct ChatView: View {
                         
                         ForEach(dummyArray) { i in
                             Text("Test")
-                                .frame(height: 60)
+                                .frame(height: 70)
                                 .foregroundColor(Color.clear)
                                 .id(i)
                         }
@@ -216,6 +216,9 @@ struct ChatView: View {
                                     
                                     let latestMessageToRef = Database.database().reference()
                                     latestMessageToRef.child("latest-messages/\(chatMessage.toId)/\(chatMessage.fromId)").setValue(chatMessage.toAnyObject())
+                                    
+                                    attachedImageUrl = ""
+                                    image = UIImage()
                                 }
                                 writing = ""
                             }) {
@@ -225,7 +228,7 @@ struct ChatView: View {
                             
                         } // HStack
                         .padding(.horizontal, 10)
-                        .padding(.top, 20)
+                        .offset(y: 5)
                         
                         HStack {
                             if otherUserTyping {
@@ -234,7 +237,7 @@ struct ChatView: View {
                                         .fontWeight(.bold) +
                                         Text(" is typing...")
                                 }
-                                .padding(.bottom, 2)
+                                .offset(y: 3)
                                 .padding(.horizontal, 40)
                                 .transition(AnyTransition.opacity.animation(.linear(duration: 0.1)))
                             } else {
@@ -248,9 +251,9 @@ struct ChatView: View {
                         .frame(height: 25)
                     } // VStack
                     .padding(.top, 4)
-                    .frame(height: 60)
+                    .frame(height: 70)
                     .background(LinearGradient(gradient: Gradient(colors: [Color.white.opacity(0.8), .white]), startPoint: .top, endPoint: .bottom)
-                                    .frame(height: 60)
+                                    .frame(height: 70)
                                     .edgesIgnoringSafeArea(.bottom))
                 }
             } // ZStack
