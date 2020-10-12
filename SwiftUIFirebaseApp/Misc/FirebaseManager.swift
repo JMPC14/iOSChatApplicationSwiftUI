@@ -18,4 +18,3 @@ class FirebaseManager {
         self.latestMessageSeen = String()
     }
 }
-

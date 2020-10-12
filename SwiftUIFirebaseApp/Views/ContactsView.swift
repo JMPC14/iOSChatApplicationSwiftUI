@@ -17,38 +17,47 @@ struct ContactsView: View {
     
     var body: some View {
         NavigationView {
-            List(contacts) { chatUser in
-                HStack {
-                    // Profile picture
-                    WebImage(url: URL(string: chatUser.profileImageUrl))
-                        .resizable()
-                        .scaledToFill()
-                        .clipShape(Circle())
-                        .frame(width: 55, height: 55)
-                        .overlay(Circle().stroke(Color.black, lineWidth: 2))
-                        .shadow(radius: 2)
-                    
-                    Text(chatUser.username)
-                        .fontWeight(.semibold)
-                        .padding(.leading, 5)
-                } // HStack
-            } // List
-            .navigationTitle("Contacts")
-            .navigationBarItems(leading: NavigationLink(destination: SettingsView(), isActive: $showSettings) {
-                Button(action: {
-                    showSettings = true
-                }) {
-                    Text("Settings")
+            VStack {
+                List(contacts) { chatUser in
+                    HStack {
+                        // Profile picture
+                        WebImage(url: URL(string: chatUser.profileImageUrl))
+                            .resizable()
+                            .scaledToFill()
+                            .clipShape(Circle())
+                            .frame(width: 55, height: 55)
+                            .overlay(Circle().stroke(Color.black, lineWidth: 2))
+                            .shadow(radius: 2)
+                        
+                        Text(chatUser.username)
+                            .fontWeight(.semibold)
+                            .padding(.leading, 5)
+                    } // HStack
+                } // List
+                .navigationTitle("Contacts")
+                .navigationBarItems(leading: NavigationLink(destination: SettingsView(), isActive: $showSettings) {
+                    Button(action: {
+                        showSettings = true
+                    }) {
+                        Text("Settings")
+                    }
+                },
+                trailing: NavigationLink(destination: NewContactView(contacts: $contacts, addingNewContact: $addingNewContact), isActive: $addingNewContact) {
+                    Button(action: {
+                        addingNewContact = true
+                    }) {
+                        Image(systemName: "plus")
+                            .font(.system(size: 26, weight: .light))
+                    }
+                })
+                
+                if contacts.isEmpty {
+                    VStack {
+                        Text("You have no contacts!")
+                        Spacer()
+                    }
                 }
-            },
-            trailing: NavigationLink(destination: NewContactView(contacts: $contacts, addingNewContact: $addingNewContact), isActive: $addingNewContact) {
-                Button(action: {
-                    addingNewContact = true
-                }) {
-                    Image(systemName: "plus")
-                        .font(.system(size: 26, weight: .light))
-                }
-            })
+            }
         } // NavigationView
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
@@ -121,7 +130,11 @@ struct NewContactView: View {
                     
                     contactsUidList.append(chatUser.uid)
                     contacts.append(chatUser)
-                    FirebaseManager.manager.currentUser.contacts!.append(chatUser.uid)
+                    
+                    if FirebaseManager.manager.currentUser.contacts == nil {
+                        FirebaseManager.manager.currentUser.contacts = [String]()
+                    }
+                    FirebaseManager.manager.currentUser.contacts?.append(chatUser.uid)
                     
                     let ref = Database.database().reference()
                     ref.child("users/\(Auth.auth().currentUser!.uid)/contacts").setValue(contactsUidList) { error, reference in
