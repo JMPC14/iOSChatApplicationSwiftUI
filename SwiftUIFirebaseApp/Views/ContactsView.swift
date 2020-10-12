@@ -120,6 +120,8 @@ struct NewContactView: View {
                     }
                     
                     contactsUidList.append(chatUser.uid)
+                    contacts.append(chatUser)
+                    FirebaseManager.manager.currentUser.contacts!.append(chatUser.uid)
                     
                     let ref = Database.database().reference()
                     ref.child("users/\(Auth.auth().currentUser!.uid)/contacts").setValue(contactsUidList) { error, reference in

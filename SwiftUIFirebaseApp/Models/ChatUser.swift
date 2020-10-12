@@ -9,7 +9,7 @@
 import Foundation
 
 struct ChatUser: Codable, Equatable {
-    let contacts: [String]?
+    var contacts: [String]?
     var blocklist: [String]?
     let token: String?
     let email: String
