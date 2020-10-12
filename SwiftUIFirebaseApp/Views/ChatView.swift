@@ -41,6 +41,7 @@ struct ChatView: View {
                             let displayTime = (message.time - previousMessage.time) >= 60
                             // Chat Scroll View
                             if message.fromId == FirebaseManager.manager.currentUser.uid {
+                                // From Message
                                 if displayTime || isFirstMessage {
                                     Text(message.timestamp)
                                         .font(.system(size: 10))
@@ -51,28 +52,27 @@ struct ChatView: View {
                                     
                                     VStack(alignment: .trailing) {
                                         if message.imageUrl != nil {
-                                            HStack {
-                                                WebImage(url: URL(string: message.imageUrl!))
-                                                    .resizable()
-                                                    .scaledToFill()
-                                                    .cornerRadius(8)
-                                                    .frame(width: 100, height: 100)
-                                                    .offset(x: message.text == "" ? -32 : -24)
-                                                    .onTapGesture {
-                                                        openURL(URL(string: message.imageUrl!)!)
-                                                    }
-                                            }
+                                            WebImage(url: URL(string: message.imageUrl!))
+                                                .resizable()
+                                                .scaledToFit()
+                                                .cornerRadius(8)
+                                                .frame(width: 150)
+                                                .padding(.trailing, message.text == "" ? 8 : 0)
+                                                .onTapGesture {
+                                                    openURL(URL(string: message.imageUrl!)!)
+                                                }
                                         }
                                         HStack {
                                             if message.text != "" {
-                                                Spacer()
                                                 Text(message.text)
                                                     .padding(5)
                                                     .background(Color("LightGreen"))
                                                     .cornerRadius(10)
                                             }
-                                        }
+                                        } // HStack
                                     } // VStack
+                                    .padding(.trailing, previousAuthorIsIdentical && isFirstMessage == false && displayTime == false ? 48 : 0)
+                                    
                                     if !previousAuthorIsIdentical || isFirstMessage || displayTime {
                                         WebImage(url: URL(string: FirebaseManager.manager.currentUser.profileImageUrl))
                                             .resizable()
@@ -84,13 +84,13 @@ struct ChatView: View {
                                     }
                                 } // HStack
                                 .id(message)
-                                .padding(.trailing, previousAuthorIsIdentical && isFirstMessage == false && displayTime == false ? 48 : 0)
                                 .onAppear {
                                     withAnimation {
                                         scroll.scrollTo(dummyArray.last)
                                     }
                                 }
                             } else {
+                                // To Message
                                 if displayTime || isFirstMessage {
                                     Text(message.timestamp)
                                         .font(.system(size: 10))
@@ -111,10 +111,10 @@ struct ChatView: View {
                                         if message.imageUrl != nil {
                                             WebImage(url: URL(string: message.imageUrl!))
                                                 .resizable()
-                                                .scaledToFill()
+                                                .scaledToFit()
                                                 .cornerRadius(8)
-                                                .frame(width: 100, height: 100)
-                                                .offset(x: message.text == "" ? 32 : 24)
+                                                .frame(width: 150)
+                                                .padding(.leading, message.text == "" ? 8 : 0)
                                                 .onTapGesture {
                                                     openURL(URL(string: message.imageUrl!)!)
                                                 }
@@ -125,15 +125,20 @@ struct ChatView: View {
                                                     .padding(5)
                                                     .background(Color(UIColor.systemGray5))
                                                     .cornerRadius(10)
-                                                    .id(message.id)
                                             }
-                                            Spacer()
-                                        }
+                                        } // HStack
                                     } // VStack
+                                    .padding(.leading, previousAuthorIsIdentical && isFirstMessage == false && displayTime == false ? 48 : 0)
+                                    
+                                    Spacer()
                                 } // HStack
                                 .id(message)
-                                .padding(.leading, previousAuthorIsIdentical && isFirstMessage == false && displayTime == false ? 48 : 0)
                                 .onAppear {
+                                    let lastMessage = messagesArray.last
+                                    if lastMessage == message {
+                                        let ref = Database.database().reference(withPath: "user-messages/\(otherUser.uid)/\(FirebaseManager.manager.currentUser.uid)")
+                                        ref.child("latestMessageSeen").setValue(message.id)
+                                    }
                                     withAnimation {
                                         scroll.scrollTo(dummyArray.last)
                                     }
@@ -201,61 +206,60 @@ struct ChatView: View {
                                 })
                             
                             Button(action: {
-                                if writing != "" {
-                                    let ref = Database.database().reference().child("conversations/\(cid)").childByAutoId()
-                                    
-                                    let date = Date()
-                                    let calendar = Calendar.current
-                                    var components = calendar.dateComponents([.day], from: date)
-                                    let dayOfMonth = components.day
-                                    let dateFormatter = DateFormatter()
-                                    dateFormatter.dateFormat = "LLLL"
-                                    let nameOfMonth = dateFormatter.string(from: date)
-                                    components = calendar.dateComponents([.hour, .minute], from: date)
-                                    let hour = components.hour!
-                                    let minute = components.minute!
-                                    var newHour = ""
-                                    var newMinute = ""
-                                    if hour < 10 {
-                                        newHour = "0\(hour)"
-                                    } else {
-                                        newHour = String(hour)
-                                    }
-                                    if minute < 10 {
-                                        newMinute = "0\(minute)"
-                                    } else {
-                                        newMinute = String(minute)
-                                    }
-                                    
-                                    var chatMessage = ChatMessage(
-                                        FirebaseManager.manager.currentUser.uid,
-                                        ref.key!,
-                                        writing,
-                                        Int(NSDate().timeIntervalSince1970),
-                                        "\(dayOfMonth!) \(nameOfMonth), \(newHour):\(newMinute)",
-                                        otherUser.uid
-                                    )
-                                    
-                                    if attachedImageUrl != "" {
-                                        chatMessage.imageUrl = attachedImageUrl
-                                    }
-                                    
-                                    ref.setValue(chatMessage.toAnyObject())
-                                    
-                                    let latestMessageRef = Database.database().reference()
-                                    latestMessageRef.child("latest-messages/\(chatMessage.fromId)/\(chatMessage.toId)").setValue(chatMessage.toAnyObject())
-                                    
-                                    let latestMessageToRef = Database.database().reference()
-                                    latestMessageToRef.child("latest-messages/\(chatMessage.toId)/\(chatMessage.fromId)").setValue(chatMessage.toAnyObject())
-                                    
-                                    attachedImageUrl = ""
-                                    image = UIImage()
+                                let ref = Database.database().reference().child("conversations/\(cid)").childByAutoId()
+                                
+                                let date = Date()
+                                let calendar = Calendar.current
+                                var components = calendar.dateComponents([.day], from: date)
+                                let dayOfMonth = components.day
+                                let dateFormatter = DateFormatter()
+                                dateFormatter.dateFormat = "LLLL"
+                                let nameOfMonth = dateFormatter.string(from: date)
+                                components = calendar.dateComponents([.hour, .minute], from: date)
+                                let hour = components.hour!
+                                let minute = components.minute!
+                                var newHour = ""
+                                var newMinute = ""
+                                if hour < 10 {
+                                    newHour = "0\(hour)"
+                                } else {
+                                    newHour = String(hour)
                                 }
+                                if minute < 10 {
+                                    newMinute = "0\(minute)"
+                                } else {
+                                    newMinute = String(minute)
+                                }
+                                
+                                var chatMessage = ChatMessage(
+                                    FirebaseManager.manager.currentUser.uid,
+                                    ref.key!,
+                                    writing,
+                                    Int(NSDate().timeIntervalSince1970),
+                                    "\(dayOfMonth!) \(nameOfMonth), \(newHour):\(newMinute)",
+                                    otherUser.uid
+                                )
+                                
+                                if attachedImageUrl != "" {
+                                    chatMessage.imageUrl = attachedImageUrl
+                                }
+                                
+                                ref.setValue(chatMessage.toAnyObject())
+                                
+                                let latestMessageRef = Database.database().reference()
+                                latestMessageRef.child("latest-messages/\(chatMessage.fromId)/\(chatMessage.toId)").setValue(chatMessage.toAnyObject())
+                                
+                                let latestMessageToRef = Database.database().reference()
+                                latestMessageToRef.child("latest-messages/\(chatMessage.toId)/\(chatMessage.fromId)").setValue(chatMessage.toAnyObject())
+                                
+                                attachedImageUrl = ""
+                                image = UIImage()
                                 writing = ""
                             }) {
                                 Image(systemName: "paperplane.fill")
                                     .font(.system(size: 22, weight: .ultraLight))
                             }
+                            .disabled(writing == "" && attachedImageUrl == "")
                             
                         } // HStack
                         .padding(.horizontal, 10)
@@ -349,8 +353,8 @@ struct ChatView: View {
             let newRef = Database.database().reference()
             newRef.child("conversations/\(self.cid)").observe(.childAdded, with: { snapshot in
                 guard let data = try? JSONSerialization.data(withJSONObject: snapshot.value as Any, options: []) else { return }
-                let a = try? JSONDecoder().decode(ChatMessage?.self, from: data)
-                messagesArray.append(a!)
+                let message = try? JSONDecoder().decode(ChatMessage?.self, from: data)
+                messagesArray.append(message!)
             })
         }
     }

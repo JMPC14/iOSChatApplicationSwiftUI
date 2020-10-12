@@ -77,8 +77,10 @@ struct Home: View {
             } else {
                 if self.show {
                     Register(show: self.$show)
+                        .transition(AnyTransition.opacity.animation(.linear(duration: 0.1)))
                 } else {
                     Login(show: self.$show)
+                        .transition(AnyTransition.opacity.animation(.linear(duration: 0.1)))
                 }
             }
         } // VStack

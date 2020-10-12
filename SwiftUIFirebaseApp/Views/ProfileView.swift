@@ -17,7 +17,7 @@ struct ProfileView: View {
                 WebImage(url: URL(string: FirebaseManager.manager.currentUser.profileImageUrl))
                     .resizable()
                     .scaledToFill()
-                    .frame(maxWidth: UIScreen.main.bounds.width * 0.6, maxHeight: UIScreen.main.bounds.height * 0.25)
+                    .frame(maxWidth: UIScreen.screenWidth * 0.6, maxHeight: UIScreen.screenHeight * 0.25)
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color.white, lineWidth: 3))
                     .shadow(radius: 4)
@@ -68,14 +68,14 @@ struct ProfileView: View {
                             .padding(.horizontal, 10)
                         }
                     } // VStack
-                    .frame(minWidth: UIScreen.main.bounds.width * 0.5, maxWidth: UIScreen.main.bounds.width * 0.8)
+                    .frame(minWidth: UIScreen.screenWidth * 0.5, maxWidth: UIScreen.screenWidth * 0.8)
                     .foregroundColor(Color.white)
                     .background(RoundedRectangle(cornerRadius: 20)
                                     .stroke(Color.white, lineWidth: 3))
             } // VStack
-            .padding(.bottom, UIScreen.main.bounds.height * 0.15)
+            .padding(.bottom, UIScreen.screenHeight * 0.15)
         } // ZStack
-        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight)
         .background(Color.green.edgesIgnoringSafeArea(.all))
     }
 }

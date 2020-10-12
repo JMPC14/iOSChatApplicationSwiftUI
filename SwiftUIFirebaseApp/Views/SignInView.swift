@@ -14,9 +14,12 @@ struct Login: View {
     @State private var email = ""
     @State private var password = ""
     @State private var visible = false
+    
     @Binding var show: Bool
+    
     @State var alert = false
     @State var error = ""
+    
     @State var resettingPassword = false
     
     var body: some View {

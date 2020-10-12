@@ -10,14 +10,17 @@ import Firebase
 
 struct Register: View {
     
-    @State private var color = Color.white.opacity(0.7)
+    @State private var colour = Color.white.opacity(0.7)
+    
     @State private var email = ""
     @State private var username = ""
     @State private var password = ""
     @State private var passwordConfirm = ""
     @State private var visible = false
     @State private var revisible = false
+    
     @Binding var show: Bool
+    
     @State var alert = false
     @State var error = ""
     
@@ -70,14 +73,14 @@ struct Register: View {
                         TextField("Email", text: self.$email)
                             .autocapitalization(.none)
                             .padding()
-                            .background(RoundedRectangle(cornerRadius: 4).stroke(self.email != "" ? Color("LightGrey") : self.color, lineWidth: 2))
+                            .background(RoundedRectangle(cornerRadius: 4).stroke(self.email != "" ? Color("LightGrey") : self.colour, lineWidth: 2))
                             .padding(.top, 15)
                             .foregroundColor(.white)
                         
                         TextField("Username", text: self.$username)
                             .autocapitalization(.none)
                             .padding()
-                            .background(RoundedRectangle(cornerRadius: 4).stroke(self.email != "" ? Color("LightGrey") : self.color, lineWidth: 2))
+                            .background(RoundedRectangle(cornerRadius: 4).stroke(self.email != "" ? Color("LightGrey") : self.colour, lineWidth: 2))
                             .padding(.top, 15)
                             .foregroundColor(.white)
                         
@@ -96,11 +99,11 @@ struct Register: View {
                                 
                             }) {
                                 Image(systemName: self.visible ? "eye.slash.fill" : "eye.fill")
-                                    .foregroundColor(self.color)
+                                    .foregroundColor(self.colour)
                             }
                         } // HStack
                         .padding()
-                        .background(RoundedRectangle(cornerRadius: 4).stroke(self.passwordConfirm != "" ? Color("LightGrey") : self.color, lineWidth: 2))
+                        .background(RoundedRectangle(cornerRadius: 4).stroke(self.passwordConfirm != "" ? Color("LightGrey") : self.colour, lineWidth: 2))
                         .padding(.top, 15)
                         .foregroundColor(.white)
                         
@@ -119,11 +122,11 @@ struct Register: View {
                                 
                             }) {
                                 Image(systemName: self.revisible ? "eye.slash.fill" : "eye.fill")
-                                    .foregroundColor(self.color)
+                                    .foregroundColor(self.colour)
                             }
                         } // HStack
                         .padding()
-                        .background(RoundedRectangle(cornerRadius: 4).stroke(self.password != "" ? Color("LightGrey") : self.color, lineWidth: 2))
+                        .background(RoundedRectangle(cornerRadius: 4).stroke(self.password != "" ? Color("LightGrey") : self.colour, lineWidth: 2))
                         .padding(.top, 15)
                         .foregroundColor(.white)
                         
@@ -135,7 +138,7 @@ struct Register: View {
                             Text("Register")
                                 .foregroundColor(Color("DefaultGreen"))
                                 .padding(.vertical)
-                                .frame(width: UIScreen.main.bounds.width - 50)
+                                .frame(width: UIScreen.screenWidth - 50)
                         }
                         .background(Color.white)
                         .cornerRadius(10)
