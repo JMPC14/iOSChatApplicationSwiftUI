@@ -57,7 +57,7 @@ struct ContactsView: View {
                         Spacer()
                     }
                 }
-            }
+            } // VStack
         } // NavigationView
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {

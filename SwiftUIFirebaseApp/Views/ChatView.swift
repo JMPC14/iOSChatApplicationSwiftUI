@@ -286,7 +286,7 @@ struct ChatView: View {
                     .background(LinearGradient(gradient: Gradient(colors: [Color.white.opacity(0.8), .white]), startPoint: .top, endPoint: .bottom)
                                     .frame(height: 70)
                                     .edgesIgnoringSafeArea(.bottom))
-                }
+                } // VStack
             } // ZStack
         } // VStack
         .sheet(isPresented: $showPhotoLibrary) {

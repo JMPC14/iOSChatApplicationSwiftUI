@@ -46,7 +46,7 @@ struct Login: View {
                     Image("image_bird")
                         .resizable()
                         .scaledToFit()
-                        .frame(maxWidth: UIScreen.main.bounds.width / 2)
+                        .frame(maxWidth: UIScreen.screenWidth / 2)
                     
                     Text("Log in to your account")
                         .font(.title)
@@ -106,7 +106,7 @@ struct Login: View {
                         Text("Sign In")
                             .foregroundColor(Color("DefaultGreen"))
                             .padding(.vertical)
-                            .frame(width: UIScreen.main.bounds.width - 50)
+                            .frame(width: UIScreen.screenWidth - 50)
                     }
                     .frame(maxWidth: 400)
                     .background(Color.white)
@@ -116,7 +116,8 @@ struct Login: View {
                 .frame(maxWidth: 400, maxHeight: .infinity)
                 .padding(.horizontal, 25)
             } // ZStack
-            .frame(width: UIScreen.main.bounds.width)
+            .frame(width: UIScreen.screenWidth)
+            .disabled(alert || resettingPassword)
             
             if self.alert {
                 ErrorView(alert: self.$alert, error: self.$error)
