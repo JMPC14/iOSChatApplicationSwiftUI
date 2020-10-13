@@ -56,7 +56,7 @@ struct ChatView: View {
                                                 .resizable()
                                                 .scaledToFit()
                                                 .cornerRadius(8)
-                                                .frame(width: 150)
+                                                .frame(width: UIScreen.screenWidth * 0.3)
                                                 .padding(.trailing, message.text == "" ? 8 : 0)
                                                 .onTapGesture {
                                                     openURL(URL(string: message.imageUrl!)!)
@@ -113,7 +113,7 @@ struct ChatView: View {
                                                 .resizable()
                                                 .scaledToFit()
                                                 .cornerRadius(8)
-                                                .frame(width: 150)
+                                                .frame(width: UIScreen.screenWidth * 0.3)
                                                 .padding(.leading, message.text == "" ? 8 : 0)
                                                 .onTapGesture {
                                                     openURL(URL(string: message.imageUrl!)!)

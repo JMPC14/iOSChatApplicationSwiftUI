@@ -25,6 +25,98 @@ struct Login: View {
     var body: some View {
         
         ZStack {
+            ZStack {
+                GeometryReader { reader in
+                    ScrollView {
+                        VStack {
+                            Image("image_bird")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(maxWidth: UIScreen.screenWidth / 2)
+                            
+                            Text("Log in to your account")
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                            
+                            TextField("Email", text: self.$email)
+                                .autocapitalization(.none)
+                                .padding()
+                                .background(RoundedRectangle(cornerRadius: 4).stroke(self.email != "" ? Color.white : self.color, lineWidth: 2))
+                                .padding(.top, 25)
+                                .foregroundColor(.white)
+                            
+                            HStack(spacing: 15) {
+                                VStack {
+                                    if self.visible {
+                                        TextField("Password", text: self.$password)
+                                    } else {
+                                        SecureField("Password", text: self.$password)
+                                    }
+                                }
+                                
+                                Button(action: {
+                                    
+                                    self.visible.toggle()
+                                    
+                                }) {
+                                    Image(systemName: self.visible ? "eye.slash.fill" : "eye.fill")
+                                        .foregroundColor(self.color)
+                                }
+                            } // HStack
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 4).stroke(self.password != "" ? Color.white : self.color, lineWidth: 2))
+                            .padding(.top, 25)
+                            .foregroundColor(.white)
+                            
+                            HStack {
+                                Spacer()
+                                
+                                Button(action: {
+                                    
+                                    self.resettingPassword = true
+                                    
+                                }) {
+                                    Text("Forgot Password?")
+                                        .fontWeight(.bold)
+                                        .foregroundColor(Color.white)
+                                }
+                            } // HStack
+                            .padding(.top, 10)
+                            
+                            Button(action: {
+                                
+                                self.verify()
+                                
+                            }) {
+                                Text("Sign In")
+                                    .foregroundColor(Color("DefaultGreen"))
+                                    .padding(.vertical)
+                                    .frame(width: UIScreen.screenWidth - 50)
+                            }
+                            .frame(maxWidth: 400)
+                            .background(Color.white)
+                            .cornerRadius(10)
+                            .padding(.top, 25)
+                        } // VStack
+                        .frame(maxWidth: 400, minHeight: reader.size.height)
+                        .padding(.horizontal, 25)
+                    } // ScrollView
+                    .frame(maxWidth: UIScreen.screenWidth)
+                } // GeometryReader
+                .frame(maxWidth: UIScreen.screenWidth)
+            } // ZStack
+            .frame(width: UIScreen.screenWidth)
+            .disabled(alert || resettingPassword)
+            
+            if self.alert {
+                ErrorView(alert: self.$alert, error: self.$error)
+            }
+            
+            if self.resettingPassword {
+                ResetPassword(resettingPassword: self.$resettingPassword)
+            }
+            
             VStack {
                 HStack {
                     Spacer()
@@ -43,92 +135,6 @@ struct Login: View {
                 
                 Spacer()
             } // VStack
-            
-            ZStack {
-                VStack {
-                    Image("image_bird")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(maxWidth: UIScreen.screenWidth / 2)
-                    
-                    Text("Log in to your account")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                    
-                    TextField("Email", text: self.$email)
-                        .autocapitalization(.none)
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 4).stroke(self.email != "" ? Color.white : self.color, lineWidth: 2))
-                        .padding(.top, 25)
-                        .foregroundColor(.white)
-                    
-                    HStack(spacing: 15) {
-                        VStack {
-                            if self.visible {
-                                TextField("Password", text: self.$password)
-                            } else {
-                                SecureField("Password", text: self.$password)
-                            }
-                        }
-                        
-                        Button(action: {
-                            
-                            self.visible.toggle()
-                            
-                        }) {
-                            Image(systemName: self.visible ? "eye.slash.fill" : "eye.fill")
-                                .foregroundColor(self.color)
-                        }
-                    } // HStack
-                    .padding()
-                    .background(RoundedRectangle(cornerRadius: 4).stroke(self.password != "" ? Color.white : self.color, lineWidth: 2))
-                    .padding(.top, 25)
-                    .foregroundColor(.white)
-                    
-                    HStack {
-                        Spacer()
-                        
-                        Button(action: {
-                            
-                            self.resettingPassword = true
-                            
-                        }) {
-                            Text("Forgot Password?")
-                                .fontWeight(.bold)
-                                .foregroundColor(Color.white)
-                        }
-                    } // HStack
-                    .padding(.top, 10)
-                    
-                    Button(action: {
-                        
-                        self.verify()
-                        
-                    }) {
-                        Text("Sign In")
-                            .foregroundColor(Color("DefaultGreen"))
-                            .padding(.vertical)
-                            .frame(width: UIScreen.screenWidth - 50)
-                    }
-                    .frame(maxWidth: 400)
-                    .background(Color.white)
-                    .cornerRadius(10)
-                    .padding(.top, 25)
-                } // VStack
-                .frame(maxWidth: 400, maxHeight: .infinity)
-                .padding(.horizontal, 25)
-            } // ZStack
-            .frame(width: UIScreen.screenWidth)
-            .disabled(alert || resettingPassword)
-            
-            if self.alert {
-                ErrorView(alert: self.$alert, error: self.$error)
-            }
-            
-            if self.resettingPassword {
-                ResetPassword(resettingPassword: self.$resettingPassword)
-            }
         } // ZStack
     }
     

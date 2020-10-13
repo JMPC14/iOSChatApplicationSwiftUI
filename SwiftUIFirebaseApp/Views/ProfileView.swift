@@ -74,6 +74,7 @@ struct ProfileView: View {
                                     .stroke(Color.white, lineWidth: 3))
             } // VStack
             .padding(.bottom, UIScreen.screenHeight * 0.15)
+            .padding(.top, 50)
         } // ZStack
         .frame(width: UIScreen.screenWidth, height: UIScreen.screenHeight)
         .background(Color.green.edgesIgnoringSafeArea(.all))

@@ -30,133 +30,148 @@ struct Register: View {
     
     var body: some View {
         ZStack {
-            ZStack(alignment: .topLeading) {
-                ScrollView {
-                    VStack {
-                        Image("image_bird")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 200.0, height: 150.0)
-                            .padding(.top, 25)
-                        
-                        Text("Create a new account")
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                        
+            ZStack {
+                GeometryReader { reader in
+                    ScrollView {
                         VStack {
-                            Button(action: {
-                                showPhotoLibrary = true
-                            }) {
-                                if attachedImageUrl != "" {
-                                    Image(uiImage: image)
-                                        .resizable()
-                                        .scaledToFill()
-                                        .clipShape(Circle())
-                                        .frame(width: 200, height: 200)
-                                        .overlay(Circle().stroke(Color.white, lineWidth: 2))
-                                        .shadow(radius: 2)
-                                } else {
-                                    VStack {
-                                        Image(systemName: "person.circle")
-                                            .foregroundColor(.white)
-                                            .font(.system(size: 40, weight: .ultraLight))
-                                            .padding(.bottom, 1)
-                                        Text("Choose a profile picture")
-                                            .foregroundColor(.white)
+                            Image("image_bird")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(maxWidth: UIScreen.screenWidth * 0.5)
+                                .padding(.top, 25)
+                            
+                            Text("Create a new account")
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                            
+                            VStack {
+                                Button(action: {
+                                    showPhotoLibrary = true
+                                }) {
+                                    if attachedImageUrl != "" {
+                                        Image(uiImage: image)
+                                            .resizable()
+                                            .scaledToFill()
+                                            .clipShape(Circle())
+                                            .frame(width: 200, height: 200)
+                                            .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                                            .shadow(radius: 2)
+                                    } else {
+                                        VStack {
+                                            Image(systemName: "person.circle")
+                                                .foregroundColor(.white)
+                                                .font(.system(size: 100, weight: .ultraLight))
+                                                .padding(.bottom, 1)
+                                            Text("Choose a profile picture")
+                                                .foregroundColor(.white)
+                                        }
                                     }
                                 }
+                            } // VStack
+                            .padding(.top, 10)
+                            
+                            TextField("Email", text: self.$email)
+                                .autocapitalization(.none)
+                                .padding()
+                                .background(RoundedRectangle(cornerRadius: 4).stroke(self.email != "" ? Color("LightGrey") : self.colour, lineWidth: 2))
+                                .padding(.top, 15)
+                                .foregroundColor(.white)
+                            
+                            TextField("Username", text: self.$username)
+                                .autocapitalization(.none)
+                                .padding()
+                                .background(RoundedRectangle(cornerRadius: 4).stroke(self.email != "" ? Color("LightGrey") : self.colour, lineWidth: 2))
+                                .padding(.top, 15)
+                                .foregroundColor(.white)
+                            
+                            HStack(spacing: 15) {
+                                VStack {
+                                    if self.visible {
+                                        TextField("Password", text: self.$password)
+                                            .autocapitalization(.none)
+                                    } else {
+                                        SecureField("Password", text: self.$password)
+                                            .autocapitalization(.none)
+                                    }
+                                }
+                                
+                                Button(action: {
+                                    
+                                    self.visible.toggle()
+                                    
+                                }) {
+                                    Image(systemName: self.visible ? "eye.slash.fill" : "eye.fill")
+                                        .foregroundColor(self.colour)
+                                }
+                            } // HStack
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 4).stroke(self.passwordConfirm != "" ? Color("LightGrey") : self.colour, lineWidth: 2))
+                            .padding(.top, 15)
+                            .foregroundColor(.white)
+                            
+                            HStack(spacing: 15) {
+                                VStack {
+                                    if self.revisible {
+                                        TextField("Confirm Password", text: self.$passwordConfirm)
+                                    } else {
+                                        SecureField("Confirm Password", text: self.$passwordConfirm)
+                                    }
+                                }
+                                
+                                Button(action: {
+                                    
+                                    self.revisible.toggle()
+                                    
+                                }) {
+                                    Image(systemName: self.revisible ? "eye.slash.fill" : "eye.fill")
+                                        .foregroundColor(self.colour)
+                                }
+                            } // HStack
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 4).stroke(self.password != "" ? Color("LightGrey") : self.colour, lineWidth: 2))
+                            .padding(.top, 15)
+                            .foregroundColor(.white)
+                            
+                            Button(action: {
+                                
+                                self.verify()
+                                
+                            }) {
+                                Text("Register")
+                                    .foregroundColor(Color("DefaultGreen"))
+                                    .padding(.vertical)
+                                    .frame(width: UIScreen.screenWidth - 50)
                             }
+                            .frame(maxWidth: 400)
+                            .background(Color.white)
+                            .cornerRadius(10)
+                            .padding([.top, .bottom], 25)
                         } // VStack
-                        .padding(.top, 10)
-                        
-                        TextField("Email", text: self.$email)
-                            .autocapitalization(.none)
-                            .padding()
-                            .background(RoundedRectangle(cornerRadius: 4).stroke(self.email != "" ? Color("LightGrey") : self.colour, lineWidth: 2))
-                            .padding(.top, 15)
-                            .foregroundColor(.white)
-                        
-                        TextField("Username", text: self.$username)
-                            .autocapitalization(.none)
-                            .padding()
-                            .background(RoundedRectangle(cornerRadius: 4).stroke(self.email != "" ? Color("LightGrey") : self.colour, lineWidth: 2))
-                            .padding(.top, 15)
-                            .foregroundColor(.white)
-                        
-                        HStack(spacing: 15) {
-                            VStack {
-                                if self.visible {
-                                    TextField("Password", text: self.$password)
-                                } else {
-                                    SecureField("Password", text: self.$password)
-                                }
-                            }
-                            
-                            Button(action: {
-                                
-                                self.visible.toggle()
-                                
-                            }) {
-                                Image(systemName: self.visible ? "eye.slash.fill" : "eye.fill")
-                                    .foregroundColor(self.colour)
-                            }
-                        } // HStack
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 4).stroke(self.passwordConfirm != "" ? Color("LightGrey") : self.colour, lineWidth: 2))
-                        .padding(.top, 15)
-                        .foregroundColor(.white)
-                        
-                        HStack(spacing: 15) {
-                            VStack {
-                                if self.revisible {
-                                    TextField("Confirm Password", text: self.$passwordConfirm)
-                                } else {
-                                    SecureField("Confirm Password", text: self.$passwordConfirm)
-                                }
-                            }
-                            
-                            Button(action: {
-                                
-                                self.revisible.toggle()
-                                
-                            }) {
-                                Image(systemName: self.revisible ? "eye.slash.fill" : "eye.fill")
-                                    .foregroundColor(self.colour)
-                            }
-                        } // HStack
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 4).stroke(self.password != "" ? Color("LightGrey") : self.colour, lineWidth: 2))
-                        .padding(.top, 15)
-                        .foregroundColor(.white)
-                        
+                        .frame(maxWidth: 400, minHeight: reader.size.height)
+                        .padding(.horizontal, 25)
+                    } // ScrollView
+                    .frame(width: UIScreen.screenWidth)
+                } // GeometryReader
+                .frame(width: UIScreen.screenWidth)
+                
+                VStack {
+                    HStack {
                         Button(action: {
                             
-                            self.verify()
+                            self.show.toggle()
                             
                         }) {
-                            Text("Register")
-                                .foregroundColor(Color("DefaultGreen"))
-                                .padding(.vertical)
-                                .frame(width: UIScreen.screenWidth - 50)
+                            Image(systemName: "chevron.left")
+                                .font(.title)
+                                .foregroundColor(.white)
                         }
-                        .background(Color.white)
-                        .cornerRadius(10)
-                        .padding([.top, .bottom], 25)
-                    } // VStack
-                    .padding(.horizontal, 25)
-                } // ScrollView
-                
-                Button(action: {
-                    
-                    self.show.toggle()
-                    
-                }) {
-                    Image(systemName: "chevron.left")
-                        .font(.title)
-                        .foregroundColor(.white)
+                        .padding()
+                        Spacer()
+                    }
+                    Spacer()
                 }
-                .padding()
+                
             } // ZStack
             .disabled(alert)
             

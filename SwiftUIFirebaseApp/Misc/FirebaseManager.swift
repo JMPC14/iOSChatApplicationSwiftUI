@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class FirebaseManager {
     static var manager = FirebaseManager()

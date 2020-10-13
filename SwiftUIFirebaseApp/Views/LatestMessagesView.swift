@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import SDWebImageSwiftUI
 import Introspect
+import Foundation
 
 struct LatestMessagesView: View {
     
@@ -24,7 +25,6 @@ struct LatestMessagesView: View {
     @State var enactNewConversation = false
     
     var body: some View {
-        
         NavigationView {
             VStack {
                 if enactNewConversation {
@@ -95,7 +95,7 @@ struct LatestMessagesView: View {
                 })
             }
         } // NavigationView
-        .navigationViewStyle(StackNavigationViewStyle())
+        .modify(if: UIDevice.current.userInterfaceIdiom == .pad, then: IPadNavigationViewStyle(), else: IPhoneNavigationViewStyle() )
         .onAppear {
             listenForOnlineUsers()
             listenForLatestMessages()
@@ -226,6 +226,8 @@ struct NewConversation: View {
                     .bold()
                     .font(.system(size: 32))
                     .padding()
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
                 Spacer()
                 Button(action: {
                     showNewConversation = false
@@ -253,7 +255,6 @@ struct NewConversation: View {
                     checkForConversation(chatUser)
                 }
             } // List
-            .navigationTitle("New Conversation")
             .onAppear {
                 fetchContacts()
             }
@@ -294,4 +295,24 @@ struct NewConversation: View {
             }
         })
     }
+}
+
+extension View {
+    public func modify<T, U>(if condition: Bool, then modifierT: T, else modifierU: U) -> some View where T: ViewModifier, U: ViewModifier {
+        Group {
+            if condition {
+                modifier(modifierT)
+            } else {
+                modifier(modifierU)
+            }
+        }
+    }
+}
+
+struct IPadNavigationViewStyle: ViewModifier {
+    func body(content: Content) -> some View { content.navigationViewStyle(DefaultNavigationViewStyle()) }
+}
+
+struct IPhoneNavigationViewStyle: ViewModifier {
+    func body(content: Content) -> some View { content.navigationViewStyle(StackNavigationViewStyle()) }
 }
