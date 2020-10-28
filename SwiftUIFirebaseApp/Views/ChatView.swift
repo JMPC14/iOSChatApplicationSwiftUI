@@ -17,7 +17,7 @@ struct ChatView: View {
     var otherUser: ChatUser
     @State var cid = ""
     @State var otherUserTyping = false
-    @State var dummyArray = [ChatMessage("testFromId", "testMessageId", "testText", 0, "testTimestamp", "testToId")]
+    @State var dummyArray = [ChatMessage()]
     @Binding var onlineUsers: [String]
     @Environment(\.openURL) var openURL
     @State var showAlert = false
@@ -58,6 +58,7 @@ struct ChatView: View {
                                                 .cornerRadius(8)
                                                 .frame(width: UIScreen.screenWidth * 0.3)
                                                 .padding(.trailing, message.text == "" ? 8 : 0)
+                                                .shadow(radius: 2)
                                                 .onTapGesture {
                                                     openURL(URL(string: message.imageUrl!)!)
                                                 }
@@ -115,6 +116,7 @@ struct ChatView: View {
                                                 .cornerRadius(8)
                                                 .frame(width: UIScreen.screenWidth * 0.3)
                                                 .padding(.leading, message.text == "" ? 8 : 0)
+                                                .shadow(radius: 2)
                                                 .onTapGesture {
                                                     openURL(URL(string: message.imageUrl!)!)
                                                 }
