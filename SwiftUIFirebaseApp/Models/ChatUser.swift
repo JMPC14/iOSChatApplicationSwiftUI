@@ -11,7 +11,7 @@ import Foundation
 struct ChatUser: Codable, Equatable {
     var contacts: [String]?
     var blocklist: [String]?
-    let token: String?
+    var token: String?
     let email: String
     let uid, username, profileImageUrl: String
 

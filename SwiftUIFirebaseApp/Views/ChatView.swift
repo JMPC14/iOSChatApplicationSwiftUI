@@ -248,6 +248,8 @@ struct ChatView: View {
                                 
                                 ref.setValue(chatMessage.toAnyObject())
                                 
+                                FirebaseManager.manager.sendPushNotification(otherUser.token!, FirebaseManager.manager.currentUser.username, writing)
+                                
                                 let latestMessageRef = Database.database().reference()
                                 latestMessageRef.child("latest-messages/\(chatMessage.fromId)/\(chatMessage.toId)").setValue(chatMessage.toAnyObject())
                                 

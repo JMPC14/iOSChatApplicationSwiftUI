@@ -99,6 +99,7 @@ struct LatestMessagesView: View {
         .onAppear {
             listenForOnlineUsers()
             listenForLatestMessages()
+            print(FirebaseManager.manager.currentUser.token!)
         }
     }
     

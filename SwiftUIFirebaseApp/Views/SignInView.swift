@@ -167,6 +167,11 @@ struct Login: View {
             if user != nil {
                 FirebaseManager.manager.currentUser = user!
                 
+                if (FirebaseManager.manager.token != "") {
+                    FirebaseManager.manager.currentUser.token = FirebaseManager.manager.token
+                }
+                Database.database().reference(withPath: "/users/\(FirebaseManager.manager.currentUser.uid)/token").setValue(FirebaseManager.manager.token)
+                
                 Database.database().reference(withPath: "online-users/\(user!.uid)").setValue(true)
                 
                 NotificationCenter.default.post(name: NSNotification.Name("status"), object: nil)
